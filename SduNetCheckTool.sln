@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33815.320
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SduNetCheckTool.GUI", "SduNetCheckTool.GUI\SduNetCheckTool.GUI.csproj", "{03CCF684-4C0D-4707-A111-3D6738174F64}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SduNetCheckTool.Core", "SduNetCheckTool.Core\SduNetCheckTool.Core.csproj", "{3A776D32-9429-4C53-989C-F6038DBF4D46}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{03CCF684-4C0D-4707-A111-3D6738174F64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03CCF684-4C0D-4707-A111-3D6738174F64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03CCF684-4C0D-4707-A111-3D6738174F64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03CCF684-4C0D-4707-A111-3D6738174F64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A776D32-9429-4C53-989C-F6038DBF4D46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A776D32-9429-4C53-989C-F6038DBF4D46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A776D32-9429-4C53-989C-F6038DBF4D46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A776D32-9429-4C53-989C-F6038DBF4D46}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C6FEE604-B8D5-458D-ACEE-C6835FAADC4C}
+	EndGlobalSection
+EndGlobal
