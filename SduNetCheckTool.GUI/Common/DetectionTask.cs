@@ -14,12 +14,15 @@ namespace SduNetCheckTool.GUI.Common
         public void RunTask()
         {
             TaskStatusEnum = TaskStatusEnum.Running;
+
             var result = _test.Test();
+
             if (result.Item1 == TestResult.Success)
                 TaskStatusEnum = TaskStatusEnum.Completed;
-            else if (result.Item1 == TestResult.Failed) TaskStatusEnum = TaskStatusEnum.Error;
+            else if (result.Item1 == TestResult.Failed) 
+                TaskStatusEnum = TaskStatusEnum.Error;
 
-            Name = result.Item2;//only for test
+            Tips = result.Item2;
         }
 
         /// <summary>
@@ -47,6 +50,17 @@ namespace SduNetCheckTool.GUI.Common
         {
             get => _taskStatusEnum;
             set => SetProperty(ref _taskStatusEnum, value);
+        }
+
+        /// <summary>
+        /// 返回的提示
+        /// </summary>
+        private string _tips = "任务未完成";
+
+        public string Tips
+        {
+            get => _tips;
+            set => SetProperty(ref _tips, value);
         }
 
     }

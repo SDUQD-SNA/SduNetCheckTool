@@ -8,11 +8,11 @@
     xmlns:local="clr-namespace:SduNetCheckTool.GUI"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.modernwpf.com/2019"
-    xmlns:viewmodels="clr-namespace:SduNetCheckTool.GUI.ViewModels"
+    xmlns:viewModels="clr-namespace:SduNetCheckTool.GUI.ViewModels"
     Title="SDUNET CHECK TOOL"
     Width="800"
     Height="450"
-    d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
+    d:DataContext="{d:DesignInstance Type=viewModels:MainViewModel}"
     ui:WindowHelper.UseModernWindowStyle="True"
     mc:Ignorable="d">
     <Window.Resources>
@@ -25,10 +25,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <ListBox
-            IsEnabled="False"
-            IsSelected="False"
-            ItemsSource="{Binding Tasks}">
+        <ListBox IsSelected="False" ItemsSource="{Binding Tasks}">
             <ListBox.ItemTemplate>
                 <DataTemplate DataType="{x:Type common:DetectionTask}">
                     <StackPanel Orientation="Horizontal">
@@ -41,7 +38,8 @@
                         <TextBlock
                             Margin="5"
                             VerticalAlignment="Center"
-                            Text="{Binding Name}" />
+                            Text="{Binding Name}"
+                            ToolTip="{Binding Tips}" />
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
