@@ -39,7 +39,7 @@ namespace SduNetCheckTool.GUI
         {
             var services = new ServiceCollection();
 
-            services.AddTransient<MainViewModel>();
+            services.AddTransient<TestViewModel>();
 
             return services.BuildServiceProvider();
         }

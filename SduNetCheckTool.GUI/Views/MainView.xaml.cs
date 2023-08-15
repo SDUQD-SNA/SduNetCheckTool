@@ -11,7 +11,7 @@ namespace SduNetCheckTool.GUI.Views
     {
         public MainView()
         {
-            DataContext = App.Current.Services.GetService<MainViewModel>();
+            DataContext = App.Current.Services.GetService<TestViewModel>();
             InitializeComponent();
         }
     }

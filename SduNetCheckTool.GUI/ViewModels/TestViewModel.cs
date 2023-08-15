@@ -8,9 +8,9 @@ using SduNetCheckTool.GUI.Common;
 
 namespace SduNetCheckTool.GUI.ViewModels
 {
-    public class MainViewModel : ObservableObject
+    public class TestViewModel : ObservableObject
     {
-        public MainViewModel()
+        public TestViewModel()
         {
             InitTasks();
             StartCommand = new RelayCommand(StartDetect);
