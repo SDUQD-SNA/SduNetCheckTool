@@ -1,12 +1,13 @@
 ﻿using SduNetCheckTool.Core.Utils;
 using System;
 using System.Collections.Generic;
+using SduNetCheckTool.Core.Repairs;
 
 namespace SduNetCheckTool.Core.Tests
 {
     public class SystemProxyTest : ITest
     {
-        public Tuple<TestResult, string> Test()
+        public Tuple<TestResult, string, IRepair> Test()
         {
             var data = new List<string>();
             var result = TestResult.Failed;
@@ -37,7 +38,7 @@ namespace SduNetCheckTool.Core.Tests
             {
                 //ignored
             }
-            return new Tuple<TestResult, string>(result,string.Join("\n",data));
+            return new Tuple<TestResult, string, IRepair>(result,string.Join("\n",data), null);
         }
     }
 }

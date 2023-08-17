@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using SduNetCheckTool.Core.Repairs;
 
 namespace SduNetCheckTool.Core.Tests
 {
     public class SduNetTest : ITest
     {
-        public Tuple<TestResult, string> Test()
+        public Tuple<TestResult, string, IRepair> Test()
         {
             var data = new List<string>();
             var httpClientHandler = new HttpClientHandler
@@ -24,19 +25,19 @@ namespace SduNetCheckTool.Core.Tests
             catch (Exception)
             {
                 data.Add("校园网状态 : 请求失败");
-                return new Tuple<TestResult, string>(TestResult.Failed,string.Join("\n",data));
+                return new Tuple<TestResult, string, IRepair>(TestResult.Failed,string.Join("\n",data), null);
             }
 
             if (text.Contains("not_online_error"))
             {
                 data.Add("校园网状态 : 离线");
-                return new Tuple<TestResult, string>(TestResult.Failed, string.Join("\n", data));
+                return new Tuple<TestResult, string, IRepair>(TestResult.Failed, string.Join("\n", data), null);
             }
             var infos = text.Split(',');
             data.Add("校园网状态 : 在线");
             data.Add($"校园网用户 : {infos[0]}");
             data.Add($"校园网IP地址 : {infos[8]}");
-            return new Tuple<TestResult, string>(TestResult.Success, string.Join("\n", data));
+            return new Tuple<TestResult, string, IRepair>(TestResult.Success, string.Join("\n", data), null);
         }
     }
 }

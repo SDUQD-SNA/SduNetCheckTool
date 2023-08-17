@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using SduNetCheckTool.Core.Repairs;
 using SduNetCheckTool.Core.Tests;
 
 namespace SduNetCheckTool.GUI.Common
@@ -11,7 +12,7 @@ namespace SduNetCheckTool.GUI.Common
             Name = name;
         }
 
-        public void RunTask()
+        public IRepair RunTask()
         {
             TaskStatusEnum = TaskStatusEnum.Running;
 
@@ -23,6 +24,8 @@ namespace SduNetCheckTool.GUI.Common
                 TaskStatusEnum = TaskStatusEnum.Error;
 
             Tips = result.Item2;
+
+            return result.Item3;
         }
 
         /// <summary>

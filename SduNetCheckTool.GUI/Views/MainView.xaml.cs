@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System.Windows;
-using SduNetCheckTool.GUI.ViewModels;
+﻿using System.Windows;
 
 namespace SduNetCheckTool.GUI.Views
 {
@@ -11,7 +9,7 @@ namespace SduNetCheckTool.GUI.Views
     {
         public MainView()
         {
-            DataContext = App.Current.Services.GetService<TestViewModel>();
+
             InitializeComponent();
         }
     }

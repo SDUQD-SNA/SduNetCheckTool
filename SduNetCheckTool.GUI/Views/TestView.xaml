@@ -10,8 +10,9 @@
     xmlns:ui="http://schemas.modernwpf.com/2019"
     xmlns:viewModels="clr-namespace:SduNetCheckTool.GUI.ViewModels"
     d:DataContext="{d:DesignInstance Type=viewModels:TestViewModel}"
-    d:DesignHeight="auto"
-    d:DesignWidth="auto"
+    d:DesignHeight="800"
+    d:DesignWidth="1000"
+    ui:Design.RequestedTheme="Default"
     mc:Ignorable="d">
     <UserControl.Resources>
         <converters:TaskStatus2VisibilityConverter x:Key="Status2VisibilityConverter" />
@@ -27,32 +28,59 @@
             <ListBox.ItemTemplate>
                 <DataTemplate DataType="{x:Type common:DetectionTask}">
                     <StackPanel Orientation="Horizontal">
-                        <ui:SymbolIcon Symbol="{Binding TaskStatusEnum, Converter={StaticResource SymbolConverter}}" Visibility="{Binding TaskStatusEnum, Converter={StaticResource Status2VisibilityConverter}}" />
-                        <ProgressBar
-                            Width="30"
-                            Height="30"
-                            IsIndeterminate="True"
-                            Visibility="{Binding TaskStatusEnum, Converter={StaticResource Status2VisibilityConverter}, ConverterParameter=0}" />
-                        <TextBlock
-                            Margin="5"
-                            VerticalAlignment="Center"
-                            Text="{Binding Name}"
-                            ToolTip="{Binding Tips}" />
+                        <Expander>
+                            <Expander.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <ui:SymbolIcon
+                                        Margin="5,0"
+                                        Symbol="{Binding TaskStatusEnum, Converter={StaticResource SymbolConverter}}"
+                                        Visibility="{Binding TaskStatusEnum, Converter={StaticResource Status2VisibilityConverter}}" />
+                                    <ProgressBar
+                                        Width="30"
+                                        Height="30"
+                                        IsIndeterminate="True"
+                                        Visibility="{Binding TaskStatusEnum, Converter={StaticResource Status2VisibilityConverter}, ConverterParameter=0}" />
+                                    <TextBlock
+                                        Margin="5"
+                                        VerticalAlignment="Center"
+                                        FontSize="15"
+                                        FontWeight="Bold"
+                                        Text="{Binding Name}" />
+                                </StackPanel>
+                            </Expander.Header>
+                            <Expander.Content>
+                                <Grid Margin="5,8,5,0">
+                                    <TextBlock
+                                        Text="{Binding Tips}"
+                                        TextTrimming="CharacterEllipsis"
+                                        TextWrapping="Wrap" />
+                                </Grid>
+                            </Expander.Content>
+                        </Expander>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <Button
+        <StackPanel
             Grid.Row="1"
             Margin="5"
             HorizontalAlignment="Center"
-            Command="{Binding StartCommand}">
-            <StackPanel Orientation="Horizontal">
-                <ui:SymbolIcon Symbol="Refresh" />
-                <TextBlock Margin="5,2" Text="开始检测" />
-            </StackPanel>
+            Orientation="Horizontal">
+            <Button Margin="5" Command="{Binding StartCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <ui:SymbolIcon Symbol="Refresh" />
+                    <TextBlock Margin="6,2,2,2" Text="开始检测" />
+                </StackPanel>
+            </Button>
+            <Button Margin="5" Command="{Binding RepairCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <ui:SymbolIcon Symbol="Repair" />
+                    <TextBlock Margin="6,2,2,2" Text="快速修复" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
 
-        </Button>
+
     </Grid>
 </UserControl>

@@ -1,4 +1,4 @@
-﻿using SduNetCheckTool.Core.Utils;
+﻿using SduNetCheckTool.Core.Repairs;
 using System;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
@@ -7,17 +7,17 @@ namespace SduNetCheckTool.Core.Tests
 {
     public class InternetTest : ITest
     {
-        public Tuple<TestResult, string> Test()
+        public Tuple<TestResult, string, IRepair> Test()
         {
             var data = new List<string>();
             var result = TestResult.Failed;
             try
             {
-                Ping ping = new Ping();
-                string testSite = "www.google.com"; // string testSite = ClientInput();
+                var ping = new Ping();
+                var testSite = "www.google.com"; // string testSite = ClientInput();
 
                 data.Add($"您要检测的网页为: {testSite}");
-                PingReply reply = ping.Send(testSite);
+                var reply = ping.Send(testSite);
                 if (reply.Status == IPStatus.Success)
                 {
                     data.Add($"您所检测网页对应的ip地址为: {reply.Address}");
@@ -35,7 +35,7 @@ namespace SduNetCheckTool.Core.Tests
             {
                 //ignored
             }
-            return new Tuple<TestResult, string>(result,string.Join("\n",data));
+            return new Tuple<TestResult, string, IRepair>(result,string.Join("\n",data),null);
         }
     }
 }

@@ -17,13 +17,31 @@
             OpenPaneLength="200"
             SelectionChanged="NavigationView_OnSelectionChanged">
             <ui:NavigationView.MenuItems>
-                <ui:NavigationViewItem Content="测试" Tag="TestView">
+                <ui:NavigationViewItem
+                    Content="检测"
+                    IsSelected="True"
+                    Tag="TestView">
                     <ui:NavigationViewItem.Icon>
                         <ui:SymbolIcon Symbol="Refresh" />
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
+                <ui:NavigationViewItem
+                    Content="工具箱"
+                    IsSelected="True"
+                    Tag="ToolboxView">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:SymbolIcon Symbol="Repair" />
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
             </ui:NavigationView.MenuItems>
-            <ui:Frame x:Name="MainFrame"></ui:Frame>
+            <ui:NavigationView.FooterMenuItems>
+                <ui:NavigationViewItem Content="关于" Tag="AboutView">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:SymbolIcon Symbol="Help" />
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+            </ui:NavigationView.FooterMenuItems>
+            <ui:Frame x:Name="MainFrame" />
         </ui:NavigationView>
     </Grid>
 </UserControl>
