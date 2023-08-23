@@ -1,12 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
 using SduNetCheckTool.GUI.ViewModels;
+using System;
+using System.Windows;
 
 namespace SduNetCheckTool.GUI
 {
@@ -40,6 +35,7 @@ namespace SduNetCheckTool.GUI
             var services = new ServiceCollection();
 
             services.AddSingleton<TestViewModel>();
+            services.AddSingleton<ToolBoxViewModel>();
 
             return services.BuildServiceProvider();
         }

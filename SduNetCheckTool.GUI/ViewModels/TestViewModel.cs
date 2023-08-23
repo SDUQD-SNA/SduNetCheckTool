@@ -26,8 +26,7 @@ namespace SduNetCheckTool.GUI.ViewModels
             {
                 new DetectionTask(new SduNetTest(),"校园网状态检测"),
                 new DetectionTask(new SystemProxyTest(),"系统代理检测"),
-                new DetectionTask(new SystemGatewayTest(),"系统网关检测"),
-                new DetectionTask(new InternetTest(),"指定IP检测")
+                new DetectionTask(new SystemGatewayTest(),"系统网关检测")
             };
             _repairs = new Collection<IRepair>();
         }

@@ -16,6 +16,7 @@ namespace SduNetCheckTool.GUI.Views
 
             AddType(typeof(TestView));
             AddType(typeof(AboutView));
+            AddType(typeof(ToolBoxView));
 
             InitializeComponent();
 

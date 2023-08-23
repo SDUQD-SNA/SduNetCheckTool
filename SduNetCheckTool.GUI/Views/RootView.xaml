@@ -28,7 +28,7 @@
                 <ui:NavigationViewItem
                     Content="工具箱"
                     IsSelected="True"
-                    Tag="ToolboxView">
+                    Tag="ToolBoxView">
                     <ui:NavigationViewItem.Icon>
                         <ui:SymbolIcon Symbol="Repair" />
                     </ui:NavigationViewItem.Icon>

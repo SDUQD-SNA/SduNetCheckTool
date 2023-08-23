@@ -1,20 +1,19 @@
-﻿using SduNetCheckTool.Core.Repairs;
+﻿using SduNetCheckTool.Core.Tests;
 using System;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
 
-namespace SduNetCheckTool.Core.Tests
+namespace SduNetCheckTool.Core.CustomInputTest
 {
-    public class InternetTest : ITest
+    public class InternetTest : ICustomInputTest
     {
-        public Tuple<TestResult, string, IRepair> Test()
+        public string Test(string input)
         {
             var data = new List<string>();
-            var result = TestResult.Failed;
             try
             {
                 var ping = new Ping();
-                var testSite = "www.google.com"; // string testSite = ClientInput();
+                var testSite = input; // string testSite = ClientInput();
 
                 data.Add($"您要检测的网页为: {testSite}");
                 var reply = ping.Send(testSite);
@@ -23,19 +22,17 @@ namespace SduNetCheckTool.Core.Tests
                     data.Add($"您所检测网页对应的ip地址为: {reply.Address}");
                     data.Add($"时间:{reply.RoundtripTime} ms");
                     data.Add($"TTL: {reply.Options.Ttl}");
-                    result = TestResult.Success;
                 }
                 else
                 {
                     data.Add($"未能ping通!");
-                    result = TestResult.Failed;
                 }
             }
             catch (Exception)
             {
                 //ignored
             }
-            return new Tuple<TestResult, string, IRepair>(result,string.Join("\n",data),null);
+            return string.Join("\n", data);
         }
     }
 }

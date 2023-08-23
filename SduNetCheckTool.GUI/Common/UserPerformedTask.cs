@@ -1,37 +1,37 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using SduNetCheckTool.Core.Repairs;
-using SduNetCheckTool.Core.Tests;
+﻿using System;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using SduNetCheckTool.Core.CustomInputTest;
 
 namespace SduNetCheckTool.GUI.Common
 {
-    public class DetectionTask : ObservableObject
+    public class UserPerformedTask : ObservableObject
     {
-        public DetectionTask(ITest test, string name)
+        public UserPerformedTask(ICustomInputTest test, string name)
         {
             _test = test;
             Name = name;
+            RunCommand = new AsyncRelayCommand<string>(RunTask);
         }
 
-        public IRepair RunTask()
+        public Task RunTask(string input)
         {
-            TaskStatusEnum = TaskStatusEnum.Running;
-
-            var result = _test.Test();
-
-            if (result.Item1 == TestResult.Success)
+            return Task.Run(() =>
+            {
+                TaskStatusEnum = TaskStatusEnum.Running;
+                Tips = _test.Test(input);
                 TaskStatusEnum = TaskStatusEnum.Completed;
-            else if (result.Item1 == TestResult.Failed) 
-                TaskStatusEnum = TaskStatusEnum.Error;
-
-            Tips = result.Item2;
-
-            return result.Item3;
+            });
         }
+
+        public ICommand RunCommand { get; private set; }
 
         /// <summary>
         /// 测试类
         /// </summary>
-        private readonly ITest _test;
+        private readonly ICustomInputTest _test;
 
         /// <summary>
         /// 任务名字
@@ -66,7 +66,12 @@ namespace SduNetCheckTool.GUI.Common
             set => SetProperty(ref _tips, value);
         }
 
+        public string InputText
+        {
+            get => _inputText;
+            set => SetProperty(ref _inputText, value);
+        }
+
+        private string _inputText = string.Empty;
     }
-
-
 }

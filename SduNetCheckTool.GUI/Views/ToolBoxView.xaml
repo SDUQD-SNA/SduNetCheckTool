@@ -1,0 +1,83 @@
+﻿<UserControl
+    x:Class="SduNetCheckTool.GUI.Views.ToolBoxView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="clr-namespace:SduNetCheckTool.GUI.Common"
+    xmlns:converters="clr-namespace:SduNetCheckTool.GUI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:SduNetCheckTool.GUI.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.modernwpf.com/2019"
+    xmlns:viewmodel="clr-namespace:SduNetCheckTool.GUI.ViewModels"
+    d:DataContext="{d:DesignInstance Type=viewmodel:ToolBoxViewModel}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:TaskStatus2VisibilityConverter x:Key="Status2VisibilityConverter" />
+        <converters:TaskStatus2SymbolConverter x:Key="SymbolConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <ListBox ItemsSource="{Binding Tasks}">
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="{x:Type common:UserPerformedTask}">
+                    <Expander>
+                        <Expander.Header>
+                            <StackPanel Margin="4" Orientation="Horizontal">
+                                <ui:SymbolIcon
+                                    Margin="5,0"
+                                    Symbol="{Binding TaskStatusEnum, Converter={StaticResource SymbolConverter}}"
+                                    Visibility="{Binding TaskStatusEnum, Converter={StaticResource Status2VisibilityConverter}}" />
+                                <ProgressBar
+                                    Width="30"
+                                    Height="30"
+                                    IsIndeterminate="True"
+                                    Visibility="{Binding TaskStatusEnum, Converter={StaticResource Status2VisibilityConverter}, ConverterParameter=0}" />
+                                <TextBlock
+                                    Margin="5"
+                                    VerticalAlignment="Center"
+                                    FontSize="15"
+                                    FontWeight="Bold"
+                                    Text="{Binding Name}" />
+                            </StackPanel>
+                        </Expander.Header>
+                        <Expander.Content>
+                            <Grid Margin="5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="10" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <DockPanel>
+                                    <TextBox
+                                        Name="InputTextBox"
+                                        MinWidth="600"
+                                        Margin="5"
+                                        ui:TextBoxHelper.IsDeleteButtonVisible="True"
+                                        Text="{Binding InputText}" />
+                                    <Button
+                                        Margin="5"
+                                        Command="{Binding RunCommand}"
+                                        CommandParameter="{Binding InputText}"
+                                        Content="检测" />
+                                </DockPanel>
+                                <Border
+                                    Grid.Row="1"
+                                    Margin="0,3"
+                                    Background="DarkGray"
+                                    CornerRadius="1"
+                                    Opacity="0.5" />
+
+                                <TextBlock
+                                    Grid.Row="2"
+                                    Margin="5"
+                                    Text="{Binding Tips}" />
+                            </Grid>
+                        </Expander.Content>
+
+                    </Expander>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</UserControl>

@@ -9,7 +9,9 @@ namespace SduNetCheckTool.GUI.ViewModels
     {
         public static Commands OpenLink { get; } = new Commands
         {
-            ExecuteDelegate = o => { try { Process.Start(o.ToString()); }
+            ExecuteDelegate = o =>
+            {
+                try { Process.Start(o.ToString()); }
                 catch (Exception)
                 {
                     // ignored
@@ -20,7 +22,9 @@ namespace SduNetCheckTool.GUI.ViewModels
 
         public static Commands Copy { get; } = new Commands
         {
-            ExecuteDelegate = e => { try { if (e is string str) Clipboard.SetText(str); }
+            ExecuteDelegate = e =>
+            {
+                try { if (e is string str) Clipboard.SetText(str); }
                 catch (Exception)
                 {
                     // ignored
@@ -31,8 +35,6 @@ namespace SduNetCheckTool.GUI.ViewModels
 
         public Predicate<object> CanExecuteDelegate { get; set; }
         public Action<object> ExecuteDelegate { get; set; }
-
-        #region ICommand Members
 
         public void Execute(object parameter) => this.ExecuteDelegate?.Invoke(parameter);
 
@@ -46,7 +48,5 @@ namespace SduNetCheckTool.GUI.ViewModels
             add => CommandManager.RequerySuggested += value;
             remove => CommandManager.RequerySuggested -= value;
         }
-
-        #endregion
     }
 }
