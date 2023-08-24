@@ -24,6 +24,7 @@ namespace SduNetCheckTool.GUI.ViewModels
         {
             Tasks = new ObservableCollection<DetectionTask>()
             {
+                new DetectionTask(new NetworkAdapterTest(),"网卡检测"),
                 new DetectionTask(new SduNetTest(),"校园网状态检测"),
                 new DetectionTask(new SystemProxyTest(),"系统代理检测"),
                 new DetectionTask(new SystemGatewayTest(),"系统网关检测")

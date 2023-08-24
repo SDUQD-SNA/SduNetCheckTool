@@ -7,10 +7,16 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.modernwpf.com/2019"
     xmlns:views="clr-namespace:SduNetCheckTool.GUI.Views"
-    Title="SDUNET CHECK TOOL"
-    Width="800"
-    Height="450"
+    Width="1000"
+    Height="600"
     ui:WindowHelper.UseModernWindowStyle="True"
+    ui:WindowHelper.FixMaximizedWindow="True"
     mc:Ignorable="d">
+    <Window.Title>
+        <MultiBinding StringFormat="{}{0} - {1}">
+            <Binding Source="{x:Static local:Reference.Name}" />
+            <Binding Source="{x:Static local:Reference.Version}" />
+        </MultiBinding>
+    </Window.Title>
     <views:RootView />
 </Window>

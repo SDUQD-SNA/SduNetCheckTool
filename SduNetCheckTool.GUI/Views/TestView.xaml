@@ -1,4 +1,4 @@
-﻿<UserControl
+﻿<ui:Page
     x:Class="SduNetCheckTool.GUI.Views.TestView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -14,53 +14,56 @@
     d:DesignWidth="1000"
     ui:Design.RequestedTheme="Default"
     mc:Ignorable="d">
-    <UserControl.Resources>
+    <ui:Page.Resources>
         <converters:TaskStatus2VisibilityConverter x:Key="Status2VisibilityConverter" />
         <converters:TaskStatus2SymbolConverter x:Key="SymbolConverter" />
-    </UserControl.Resources>
+    </ui:Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        <ScrollViewer ui:ScrollViewerHelper.AutoHideScrollBars="True" PreviewMouseWheel="ScrollViewer_OnPreviewMouseWheel">
+            <ListBox IsSelected="False" ItemsSource="{Binding Tasks}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="{x:Type common:DetectionTask}">
+                        <StackPanel Orientation="Horizontal">
+                            <Expander>
+                                <Expander.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <ui:SymbolIcon
+                                            Margin="5,0"
+                                            Symbol="{Binding TaskStatusEnum, Converter={StaticResource SymbolConverter}}"
+                                            Visibility="{Binding TaskStatusEnum, Converter={StaticResource Status2VisibilityConverter}}" />
+                                        <ProgressBar
+                                            Width="30"
+                                            Height="30"
+                                            IsIndeterminate="True"
+                                            Visibility="{Binding TaskStatusEnum, Converter={StaticResource Status2VisibilityConverter}, ConverterParameter=0}" />
+                                        <TextBlock
+                                            Margin="5"
+                                            VerticalAlignment="Center"
+                                            FontSize="15"
+                                            FontWeight="Bold"
+                                            Text="{Binding Name}" />
+                                    </StackPanel>
+                                </Expander.Header>
+                                <Expander.Content>
+                                    <Grid Margin="5,8,5,0">
+                                        <TextBlock
+                                            Text="{Binding Tips}"
+                                            TextTrimming="CharacterEllipsis"
+                                            TextWrapping="Wrap" />
+                                    </Grid>
+                                </Expander.Content>
+                            </Expander>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </ScrollViewer>
 
-        <ListBox IsSelected="False" ItemsSource="{Binding Tasks}">
-            <ListBox.ItemTemplate>
-                <DataTemplate DataType="{x:Type common:DetectionTask}">
-                    <StackPanel Orientation="Horizontal">
-                        <Expander>
-                            <Expander.Header>
-                                <StackPanel Orientation="Horizontal">
-                                    <ui:SymbolIcon
-                                        Margin="5,0"
-                                        Symbol="{Binding TaskStatusEnum, Converter={StaticResource SymbolConverter}}"
-                                        Visibility="{Binding TaskStatusEnum, Converter={StaticResource Status2VisibilityConverter}}" />
-                                    <ProgressBar
-                                        Width="30"
-                                        Height="30"
-                                        IsIndeterminate="True"
-                                        Visibility="{Binding TaskStatusEnum, Converter={StaticResource Status2VisibilityConverter}, ConverterParameter=0}" />
-                                    <TextBlock
-                                        Margin="5"
-                                        VerticalAlignment="Center"
-                                        FontSize="15"
-                                        FontWeight="Bold"
-                                        Text="{Binding Name}" />
-                                </StackPanel>
-                            </Expander.Header>
-                            <Expander.Content>
-                                <Grid Margin="5,8,5,0">
-                                    <TextBlock
-                                        Text="{Binding Tips}"
-                                        TextTrimming="CharacterEllipsis"
-                                        TextWrapping="Wrap" />
-                                </Grid>
-                            </Expander.Content>
-                        </Expander>
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+        
 
         <StackPanel
             Grid.Row="1"
@@ -83,4 +86,4 @@
 
 
     </Grid>
-</UserControl>
+</ui:Page>

@@ -1,7 +1,9 @@
-﻿using SduNetCheckTool.Core.Tests;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.NetworkInformation;
+using System.Net.Sockets;
+using SduNetCheckTool.Core.Utils;
 
 namespace SduNetCheckTool.Core.CustomInputTest
 {
@@ -27,6 +29,10 @@ namespace SduNetCheckTool.Core.CustomInputTest
                 {
                     data.Add($"未能ping通!");
                 }
+
+                var tracert = new PingTraceRoute(input, 60, 1000);
+                tracert.Trace();
+                data.Add(tracert.GetResults());
             }
             catch (Exception)
             {
@@ -34,5 +40,6 @@ namespace SduNetCheckTool.Core.CustomInputTest
             }
             return string.Join("\n", data);
         }
+
     }
 }

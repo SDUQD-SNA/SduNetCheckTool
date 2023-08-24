@@ -84,6 +84,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Common\UserPerformedTask.cs" />
+    <Compile Include="Reference.cs" />
     <Compile Include="ViewModels\Commands.cs" />
     <Compile Include="ViewModels\ToolBoxViewModel.cs" />
     <Compile Include="Views\AboutView.xaml.cs">

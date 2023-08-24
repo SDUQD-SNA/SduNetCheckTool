@@ -9,7 +9,6 @@ namespace SduNetCheckTool.GUI.Views
     {
         public MainView()
         {
-
             InitializeComponent();
         }
     }
