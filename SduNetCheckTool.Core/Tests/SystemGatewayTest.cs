@@ -1,9 +1,8 @@
-﻿using SduNetCheckTool.Core.Utils;
+﻿using SduNetCheckTool.Core.Repairs;
 using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.NetworkInformation;
-using SduNetCheckTool.Core.Repairs;
 
 namespace SduNetCheckTool.Core.Tests
 {

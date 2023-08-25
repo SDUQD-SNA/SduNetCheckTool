@@ -5,13 +5,19 @@ using System.Text;
 
 namespace SduNetCheckTool.Core.Utils
 {
-    class PingTraceRoute : IDisposable
+    internal class PingTraceRoute : IDisposable
     {
         private string targetIP;
         private int maxHops;
         private int timeout;
         private List<string> resultList;
 
+        /// <summary>
+        /// 初始化一个<see cref="PingTraceRoute"/>类
+        /// </summary>
+        /// <param name="targetIP">目标IP</param>
+        /// <param name="maxHops">最大跃数</param>
+        /// <param name="timeout">超时时间(ms)</param>
         public PingTraceRoute(string targetIP, int maxHops, int timeout)
         {
             this.targetIP = targetIP;
@@ -45,7 +51,8 @@ namespace SduNetCheckTool.Core.Utils
                     resultList.Add($"{i}\t{reply.RoundtripTime} ms\t{reply.Address}");
                     break;
                 }
-                else if (reply.Status == IPStatus.TtlExpired)
+
+                if (reply.Status == IPStatus.TtlExpired)
                 {
                     resultList.Add($"{i}\t{reply.RoundtripTime} ms\t{reply.Address}");
                     pingOptions.Ttl++;
@@ -59,7 +66,7 @@ namespace SduNetCheckTool.Core.Utils
 
         public void Dispose()
         {
-            // 清理资源的逻辑
+            resultList.Clear();
         }
     }
 }

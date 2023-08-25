@@ -1,7 +1,7 @@
 ﻿using SduNetCheckTool.Core.Repairs;
 using System;
 using System.Collections.Generic;
-using System.Management;
+using System.Net.NetworkInformation;
 
 namespace SduNetCheckTool.Core.Tests
 {
@@ -9,23 +9,29 @@ namespace SduNetCheckTool.Core.Tests
     {
         public Tuple<TestResult, string, IRepair> Test()
         {
-            var query = "SELECT * FROM Win32_NetworkAdapter WHERE NetConnectionStatus=2";
             var retList = new List<string>();
-            var searcher = new ManagementObjectSearcher(query);
             var hasNetConnection = false;
-            foreach (var obj in searcher.Get())
+
+            NetworkInterface[] networkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
+
+            foreach (NetworkInterface networkInterface in networkInterfaces)
             {
-                retList.Add($"网卡名称: {obj["Name"]}");
-                retList.Add($"MAC地址: {obj["MACAddress"]}");
-                retList.Add($"网卡类型: {obj["AdapterType"]}");
-                retList.Add($"网卡速度: {(int.Parse(obj["Speed"].ToString()) / 1000 / 1000)} Mbps");
-                retList.Add($"是否是物理网卡: {obj["PhysicalAdapter"]}");
-                retList.Add($"制造商: {obj["Manufacturer"]}");
-                retList.Add($"网络连接状态: {obj["NetConnectionStatus"]}");
-                retList.Add($"网卡是否启用: {obj["NetEnabled"]}");
-                retList.Add("————————————————————————————");
-                if (!hasNetConnection && obj["NetEnabled"].ToString() == "True")
-                    hasNetConnection = true;
+                if (networkInterface.OperationalStatus == OperationalStatus.Up)
+                {
+                    var ipProperties = networkInterface.GetIPProperties();
+                    var dnsAddresses = ipProperties.DnsAddresses;
+
+                    retList.Add($"网络名称: {networkInterface.Name}");
+                    retList.Add($"网卡描述: {networkInterface.Description}");
+                    retList.Add($"MAC地址: {networkInterface.GetPhysicalAddress()}");
+                    retList.Add($"网卡类型: {networkInterface.NetworkInterfaceType}");
+                    retList.Add($"网卡速度: {(networkInterface.Speed / 1000 / 1000)} Mbps");
+                    retList.Add($"网络连接状态: {networkInterface.OperationalStatus}");
+                    retList.Add($"DNS服务器地址: {string.Join(" ", dnsAddresses)}");
+                    retList.Add("————————————————————————————");
+                    if (!hasNetConnection && networkInterface.NetworkInterfaceType != NetworkInterfaceType.Loopback)
+                        hasNetConnection = true;
+                }
             }
 
             if (hasNetConnection)

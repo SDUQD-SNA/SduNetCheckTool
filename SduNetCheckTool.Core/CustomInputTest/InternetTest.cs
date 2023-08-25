@@ -1,9 +1,7 @@
-﻿using System;
+﻿using SduNetCheckTool.Core.Utils;
+using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Net.NetworkInformation;
-using System.Net.Sockets;
-using SduNetCheckTool.Core.Utils;
 
 namespace SduNetCheckTool.Core.CustomInputTest
 {

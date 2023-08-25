@@ -1,6 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using SduNetCheckTool.GUI.ViewModels;
+using System.Windows.Controls;
 using System.Windows.Input;
-using SduNetCheckTool.GUI.ViewModels;
 using Page = ModernWpf.Controls.Page;
 
 namespace SduNetCheckTool.GUI.Views

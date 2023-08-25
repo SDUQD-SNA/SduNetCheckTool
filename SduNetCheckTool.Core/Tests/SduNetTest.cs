@@ -1,7 +1,7 @@
-﻿using System;
+﻿using SduNetCheckTool.Core.Repairs;
+using SduNetCheckTool.Core.Utils;
+using System;
 using System.Collections.Generic;
-using System.Net.Http;
-using SduNetCheckTool.Core.Repairs;
 
 namespace SduNetCheckTool.Core.Tests
 {
@@ -10,16 +10,13 @@ namespace SduNetCheckTool.Core.Tests
         public Tuple<TestResult, string, IRepair> Test()
         {
             var data = new List<string>();
-            var httpClientHandler = new HttpClientHandler
-            {
-                Proxy = null,
-                UseProxy = false
-            };// 校园网判断请求禁用代理
-            var client = new HttpClient(httpClientHandler);
+            
             string text;
             try
             {
-                text = client.GetStringAsync("http://101.76.193.1/cgi-bin/rad_user_info").Result;
+                var response = HttpUtil.GetHttpResponse("http://101.76.193.1/cgi-bin/rad_user_info");
+                response.EnsureSuccessStatusCode();
+                text = response.Content.ReadAsStringAsync().Result;
                 //text = await client.GetStringAsync("http://[2001:250:5800:11::1]/cgi-bin/rad_user_info"); //Ipv6认证地址未知
             }
             catch (Exception)
