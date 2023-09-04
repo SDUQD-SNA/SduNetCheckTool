@@ -16,8 +16,8 @@ namespace SduNetCheckTool.Core.Tests
             {
                 Ping ping = new Ping();
 
-                NetworkInterface[] adapterd = NetworkInterface.GetAllNetworkInterfaces();
-                foreach (NetworkInterface networkInterface in adapterd)
+                NetworkInterface[] interfaces = NetworkInterface.GetAllNetworkInterfaces();
+                foreach (NetworkInterface networkInterface in interfaces)
                 {
                     IPInterfaceProperties iPInterfaceProperties = networkInterface.GetIPProperties();
                     GatewayIPAddressInformationCollection gatewayIPAddressInformation = iPInterfaceProperties.GatewayAddresses;
