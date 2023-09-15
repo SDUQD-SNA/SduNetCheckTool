@@ -23,10 +23,10 @@ namespace SduNetCheckTool.Core.Tests
                 var response = HttpUtil.GetHttpResponse(sduWebsite.Value);
                 if (response != null)
                 {
-                    retList.Add($"{sduWebsite.Key} - {response.StatusCode}");
+                    retList.Add($"{sduWebsite.Key}({sduWebsite.Value}) - {response.StatusCode}");
                     continue;
                 }
-                retList.Add($"{sduWebsite.Key} - 无法访问");
+                retList.Add($"{sduWebsite.Key}({sduWebsite.Value}) - 无法访问");
                 result = TestResult.Failed;
             }
 
