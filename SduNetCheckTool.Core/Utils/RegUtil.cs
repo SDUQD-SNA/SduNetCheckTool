@@ -1,10 +1,18 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Diagnostics;
 
 namespace SduNetCheckTool.Core.Utils
 {
     public static class RegUtil
     {
+        /// <summary>
+        /// 读取注册表
+        /// </summary>
+        /// <param name="path">路径</param>
+        /// <param name="name">名字</param>
+        /// <param name="def">如果为空默认返回</param>
+        /// <returns>值</returns>
         public static string RegReadValue(string path, string name, string def)
         {
             RegistryKey regKey = null;
@@ -25,6 +33,30 @@ namespace SduNetCheckTool.Core.Utils
             return def;
         }
 
+        public static void RegWriteValue(string path, string name, object value)
+        {
+            RegistryKey? regKey = null;
+            try
+            {
+                regKey = Registry.CurrentUser.CreateSubKey(path);
+                if (IsNullOrEmpty(value.ToString()))
+                {
+                    regKey?.DeleteValue(name, false);
+                }
+                else
+                {
+                    regKey?.SetValue(name, value);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            finally
+            {
+                regKey?.Close();
+            }
+        }
 
         public static bool IsNullOrEmpty(string text)
         {

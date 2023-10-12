@@ -38,7 +38,7 @@ namespace SduNetCheckTool.Core.Tests
             {
                 //ignored
             }
-            return new Tuple<TestResult, string, IRepair>(result,string.Join("\n",data), null);
+            return new Tuple<TestResult, string, IRepair>(result,string.Join("\n",data), new ProxyRepair());
         }
     }
 }

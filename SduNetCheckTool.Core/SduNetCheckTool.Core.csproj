@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="CustomInputTest\ICustomInputTest.cs" />
     <Compile Include="CustomInputTest\InternetTest.cs" />
+    <Compile Include="Repairs\ProxyRepair.cs" />
     <Compile Include="Repairs\RepairResult.cs" />
     <Compile Include="Repairs\IRepair.cs" />
     <Compile Include="Repairs\DhcpRepair.cs" />
