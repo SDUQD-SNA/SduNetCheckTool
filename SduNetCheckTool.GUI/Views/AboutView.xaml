@@ -15,12 +15,13 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <TextBlock Margin="8">
             <Run
                 FontSize="40"
                 FontWeight="Bold"
-                Text="关于" />
+                Text="关于 " />
             <Run Text="{x:Static gui:Reference.Name}" />
             <Run Text=" - " />
             <Run Text="{x:Static gui:Reference.Version}" />
@@ -31,10 +32,23 @@
             Orientation="Horizontal">
             <TextBlock VerticalAlignment="Center" Text="本软件由山东大学网管会开发，以GPLv3协议开源于" />
             <ui:HyperlinkButton
-                VerticalAlignment="Center"
-                Command="{x:Static model:Commands.OpenLink}"
-                CommandParameter="https://github.com/SDUQD-SNA/SduNetCheckTool"
-                Content="https://github.com/SDUQD-SNA/SduNetCheckTool" />
+                Margin="4,0,0,0"
+                Content="https://github.com/SDUQD-SNA/SduNetCheckTool"
+                NavigateUri="https://github.com/SDUQD-SNA/SduNetCheckTool" />
+        </StackPanel>
+        <StackPanel Grid.Row="2">
+            <TextBlock
+                Margin="8"
+                FontSize="20"
+                FontWeight="Bold"
+                Text="友情链接" />
+            <ListView>
+                <ListView.Items>
+                    <ui:HyperlinkButton Content="山大主页 - https://www.sdu.edu.cn/" NavigateUri="https://www.sdu.edu.cn/" />
+                    <ui:HyperlinkButton Content="山大镜像站 - https://mirrors.sdu.edu.cn/" NavigateUri="https://mirrors.sdu.edu.cn/" />
+                    <ui:HyperlinkButton Content="校园网登录 - http://101.76.193.1/" NavigateUri="http://101.76.193.1/" />
+                </ListView.Items>
+            </ListView>
         </StackPanel>
 
     </Grid>
