@@ -85,6 +85,7 @@
     </ApplicationDefinition>
     <Compile Include="Common\UserPerformedTask.cs" />
     <Compile Include="Reference.cs" />
+    <Compile Include="Utils\FileUtil.cs" />
     <Compile Include="ViewModels\Commands.cs" />
     <Compile Include="ViewModels\ToolBoxViewModel.cs" />
     <Compile Include="Views\AboutView.xaml.cs">
@@ -188,6 +189,11 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="sysproxy.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

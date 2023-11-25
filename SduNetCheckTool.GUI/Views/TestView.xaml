@@ -82,6 +82,12 @@
                     <TextBlock Margin="6,2,2,2" Text="快速修复" />
                 </StackPanel>
             </Button>
+            <Button Margin="5" Command="{Binding ExportReportCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <ui:SymbolIcon Symbol="OpenFile" />
+                    <TextBlock Margin="6,2,2,2" Text="导出报告" />
+                </StackPanel>
+            </Button>
         </StackPanel>
 
 

@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using SduNetCheckTool.GUI.Utils;
 
 namespace SduNetCheckTool.GUI.ViewModels
 {
@@ -18,6 +19,7 @@ namespace SduNetCheckTool.GUI.ViewModels
             Init();
             StartCommand = new RelayCommand(StartDetect);
             RepairCommand = new RelayCommand(Repair);
+            ExportReportCommand = new RelayCommand(ExportReport);
         }
 
         private void Init()
@@ -49,6 +51,8 @@ namespace SduNetCheckTool.GUI.ViewModels
         public ICommand StartCommand { get; }
 
         public ICommand RepairCommand { get; }
+        
+        public ICommand ExportReportCommand { get; }
 
         private async void Repair()
         {
@@ -83,6 +87,11 @@ namespace SduNetCheckTool.GUI.ViewModels
                 }
             });
 
+        }
+
+        private void ExportReport()
+        {
+            MessageBox.Show("日志文件导出:" + FileUtil.ExportReport(Tasks));
         }
     }
 }
