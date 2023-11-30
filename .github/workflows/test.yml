@@ -1,0 +1,65 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT license.
+
+name: Wpf Continuous Delivery
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        targetplatform: [x64]
+        Configuration: [Debug]
+        ChannelName: [Prod_Store]
+
+    runs-on: windows-latest
+
+    env:
+      appPackagesArchive: AppPackages.zip
+      # appPackagesDirectory: bin\x64\${{ matrix.Configuration }}
+      solutionPath: SduNetCheckTool.sln
+      coreProjectDirectory: SduNetCheckTool.Core
+      guiProjectDirectory: SduNetCheckTool.GUI
+      coreProjectPath: SduNetCheckTool.Core\SduNetCheckTool.Core.csproj
+      guiProjectPath: SduNetCheckTool.GUI\SduNetCheckTool.GUI.csproj
+      Configuration: Debug
+      appPackagesDirectory: bin\Debug
+
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '6.0.x'
+
+      - name: Setup MSBuild.exe
+        uses: microsoft/setup-msbuild@v1.1
+
+      - name: Restore the Wpf application
+        run: msbuild ${{ env.solutionPath }} /t:Restore /p:Configuration=${{ matrix.Configuration }} /p:RuntimeIdentifier=win
+
+      - name: Build wapproj
+        run: msbuild ${{ env.solutionPath }} /p:Configuration=${{env.Configuration}} /p:UapAppxPackageBuildMode=StoreUpload /p:AppxBundle=Never /p:GenerateAppInstallerFile=False /p:AppxPackageSigningEnabled=False
+
+      - name: Create archive
+        run: Compress-Archive -Path ${{ env.guiProjectDirectory }}\${{ env.appPackagesDirectory }}\* -DestinationPath ${{ env.guiProjectDirectory }}\${{ env.appPackagesDirectory }}\${{ env.appPackagesArchive }}
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ${{ env.guiProjectDirectory }}/bin/Debug/${{ env.appPackagesArchive }}
+            LICENSE.txt
+          tag_name: 0.0.1
+          body: |
+            This is an automated release of this Wpf application.
+          draft: false
+          prerelease: false
+          token: ${{secrets.GITHUB_TOKEN}}
