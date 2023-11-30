@@ -1,7 +1,7 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT license.
 
-name: Wpf Continuous Delivery
+name: Build and Pack
 
 on:
   push:
@@ -64,6 +64,15 @@ jobs:
           npm install
           node pack.js
           cd -
+      
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v3
+        with:
+          name: my-artifact
+          path: |
+            build/${{ env.appPackagesArchive }}
+            build/SduNetCheckTool.GUI_boxed.exe
+          retention-days: 5
 
       - name: Release
         uses: softprops/action-gh-release@v1
