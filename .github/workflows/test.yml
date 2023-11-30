@@ -49,13 +49,28 @@ jobs:
         run: msbuild ${{ env.solutionPath }} /p:Configuration=${{env.Configuration}} /p:UapAppxPackageBuildMode=StoreUpload /p:AppxBundle=Never /p:GenerateAppInstallerFile=False /p:AppxPackageSigningEnabled=False
 
       - name: Create archive
-        run: Compress-Archive -Path ${{ env.guiProjectDirectory }}\${{ env.appPackagesDirectory }}\* -DestinationPath ${{ env.guiProjectDirectory }}\${{ env.appPackagesDirectory }}\${{ env.appPackagesArchive }}
+        run: |
+          mkdir build
+          Compress-Archive -Path ${{ env.guiProjectDirectory }}\${{ env.appPackagesDirectory }}\* -DestinationPath build\${{ env.appPackagesArchive }}
+      
+      - name: install node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+      
+      - name: Pack into single file executable
+        run: | 
+          cd .\.github\utils\
+          npm install
+          node pack.js
+          cd -
 
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            ${{ env.guiProjectDirectory }}/bin/Debug/${{ env.appPackagesArchive }}
+            build/${{ env.appPackagesArchive }}
+            build/SduNetCheckTool.GUI_boxed.exe
             LICENSE.txt
           tag_name: 0.0.1
           body: |
