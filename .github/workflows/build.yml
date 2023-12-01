@@ -1,3 +1,4 @@
+# Copyright (c) SduNetCheckTool
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT license.
 
@@ -73,17 +74,3 @@ jobs:
             build/${{ env.appPackagesArchive }}
             build/SduNetCheckTool.GUI_boxed.exe
           retention-days: 5
-
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            build/${{ env.appPackagesArchive }}
-            build/SduNetCheckTool.GUI_boxed.exe
-            LICENSE.txt
-          tag_name: 0.0.1
-          body: |
-            This is an automated release of this Wpf application.
-          draft: false
-          prerelease: false
-          token: ${{secrets.GITHUB_TOKEN}}
