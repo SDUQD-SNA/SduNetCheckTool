@@ -1,0 +1,47 @@
+# Copyright SduNetCheckTool
+# Licensed under the GNU General Public License v3.0
+
+name: Build and Release
+on:
+  release:
+    types: [created]
+    # filter on draft releases only
+
+jobs:
+    build:
+      uses: ./.github/workflows/build.yml
+
+    relase:
+        needs: build
+        runs-on: ubuntu-latest
+
+        env:
+          # app 命名 [名字]-[commit-tag]
+          artifact_name: SduNetCheckTool-${{ github.sha }}
+
+        steps:
+        - name: Checkout
+          uses: actions/checkout@v2
+
+        - name: Download Artifact
+          uses: actions/download-artifact@v2
+          with:
+            name: ${{ env.artifact_name }}
+        
+        - name: Display Artifact
+          run: |
+            ls -l
+            mv ${{ env.artifact_name }}.zip SduNetCheckTool-${{ github.ref_name }}.zip
+            mv ${{ env.artifact_name }}.exe SduNetCheckTool-${{ github.ref_name }}.exe
+        
+        - name: Create Release
+          uses: softprops/action-gh-release@v1
+          with:
+            files: |
+                SduNetCheckTool-${{ github.ref_name }}.zip
+                SduNetCheckTool-${{ github.ref_name }}.exe
+                LICENSE.txt
+            tag_name: ${{ github.ref_name }}
+            draft: false
+            prerelease: false
+            token: ${{secrets.GITHUB_TOKEN}}
