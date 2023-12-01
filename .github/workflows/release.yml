@@ -1,32 +1,47 @@
 # Copyright SduNetCheckTool
 # Licensed under the GNU General Public License v3.0
 
-name: Release
+name: Build and Release
 on:
-  [release, workflow_dispatch]
+  release:
+    types: [created]
+    # filter on draft releases only
 
 jobs:
     build:
+      uses: ./.github/workflows/build.yml
+
+    relase:
+        needs: build
         runs-on: ubuntu-latest
+
+        env:
+          # app 命名 [名字]-[commit-tag]
+          artifact_name: SduNetCheckTool-${{ github.sha }}
+
         steps:
         - name: Checkout
           uses: actions/checkout@v2
 
-        - name: Build
+        - name: Download Artifact
+          uses: actions/download-artifact@v2
+          with:
+            name: ${{ env.artifact_name }}
+        
+        - name: Display Artifact
           run: |
-            echo "Building..."
-            echo "Build complete."        
+            ls -l
+            mv ${{ env.artifact_name }}.zip SduNetCheckTool-${{ github.ref_name }}.zip
+            mv ${{ env.artifact_name }}.exe SduNetCheckTool-${{ github.ref_name }}.exe
         
         - name: Create Release
           uses: softprops/action-gh-release@v1
           with:
             files: |
-                build/${{ env.appPackagesArchive }}
-                build/SduNetCheckTool.GUI_boxed.exe
+                SduNetCheckTool-${{ github.ref_name }}.zip
+                SduNetCheckTool-${{ github.ref_name }}.exe
                 LICENSE.txt
-            tag_name: 0.0.1
-            body: |
-                This is an automated release of this Wpf application.
+            tag_name: ${{ github.ref_name }}
             draft: false
             prerelease: false
             token: ${{secrets.GITHUB_TOKEN}}

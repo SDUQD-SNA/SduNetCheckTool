@@ -8,32 +8,37 @@ on:
   push:
     branches:
       - master
+  workflow_call:
 
 jobs:
   build:
     strategy:
       matrix:
         targetplatform: [x64]
-        Configuration: [Debug]
-        ChannelName: [Prod_Store]
+        Configuration: [Release]
 
     runs-on: windows-latest
 
     env:
-      appPackagesArchive: AppPackages.zip
-      # appPackagesDirectory: bin\x64\${{ matrix.Configuration }}
+      # artifacts 命名 [名字]-[commit-hash]
+      artifactName: SduNetCheckTool-${{ github.sha }}
+      appPackagesArchive: SduNetCheckTool-${{ github.sha }}.zip
+      appPackagesExecutable: SduNetCheckTool-${{ github.sha }}.exe
+
       solutionPath: SduNetCheckTool.sln
       coreProjectDirectory: SduNetCheckTool.Core
       guiProjectDirectory: SduNetCheckTool.GUI
       coreProjectPath: SduNetCheckTool.Core\SduNetCheckTool.Core.csproj
       guiProjectPath: SduNetCheckTool.GUI\SduNetCheckTool.GUI.csproj
-      Configuration: Debug
-      appPackagesDirectory: bin\Debug
+      Configuration: Release
+      appPackagesDirectory: bin\Release
 
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
 
       - name: Install .NET Core
         uses: actions/setup-dotnet@v3
@@ -44,7 +49,7 @@ jobs:
         uses: microsoft/setup-msbuild@v1.1
 
       - name: Restore the Wpf application
-        run: msbuild ${{ env.solutionPath }} /t:Restore /p:Configuration=${{ matrix.Configuration }} /p:RuntimeIdentifier=win
+        run: msbuild ${{ env.solutionPath }} /t:Restore /p:Configuration=${{ env.Configuration }} /p:RuntimeIdentifier=win
 
       - name: Build wapproj
         run: msbuild ${{ env.solutionPath }} /p:Configuration=${{env.Configuration}} /p:UapAppxPackageBuildMode=StoreUpload /p:AppxBundle=Never /p:GenerateAppInstallerFile=False /p:AppxPackageSigningEnabled=False
@@ -54,23 +59,19 @@ jobs:
           mkdir build
           Compress-Archive -Path ${{ env.guiProjectDirectory }}\${{ env.appPackagesDirectory }}\* -DestinationPath build\${{ env.appPackagesArchive }}
       
-      - name: install node
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16.x'
-      
       - name: Pack into single file executable
         run: | 
           cd .\.github\utils\
           npm install
           node pack.js
           cd -
+          Move-Item build\SduNetCheckTool.GUI_boxed.exe build\${{ env.appPackagesExecutable }}
       
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v3
         with:
-          name: my-artifact
+          name: ${{ env.artifactName }}
           path: |
             build/${{ env.appPackagesArchive }}
-            build/SduNetCheckTool.GUI_boxed.exe
-          retention-days: 5
+            build/${{ env.appPackagesExecutable }}
+          retention-days: 1
