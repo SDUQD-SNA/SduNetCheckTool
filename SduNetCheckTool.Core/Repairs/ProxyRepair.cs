@@ -10,16 +10,17 @@ namespace SduNetCheckTool.Core.Repairs
     {
         public Tuple<RepairResult, string> Repair()
         {
-            RegUtil.RegWriteValue(@"Software\Microsoft\Windows\CurrentVersion\Internet Settings", "ProxyEnable", "0");
             try
             {
+                RegUtil.RegWriteValue(@"Software\Microsoft\Windows\CurrentVersion\Internet Settings", "ProxyEnable", "0");
+                RegUtil.RegWriteValue(@"Software\Microsoft\Windows\CurrentVersion\Internet Settings", "AutoConfigURL", "");
                 ResetIEProxy();
             }
             catch (Exception ex)
             {
                 return new Tuple<RepairResult, string>(RepairResult.Failed, ex.Message);
             }
-            return new Tuple<RepairResult, string>(RepairResult.Success, "已经尝试关闭系统代理，此操作并不会关闭你的代理软件！");
+            return new Tuple<RepairResult, string>(RepairResult.Success, "已经尝试关闭系统全局代理和PAC代理，此操作并不会关闭你的代理软件！");
         }
 
         private enum RET_ERRORS : int
