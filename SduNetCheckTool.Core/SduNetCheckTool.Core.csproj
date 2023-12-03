@@ -50,6 +50,7 @@
     <Compile Include="Repairs\RepairResult.cs" />
     <Compile Include="Repairs\IRepair.cs" />
     <Compile Include="Repairs\DhcpRepair.cs" />
+    <Compile Include="Tests\CommonWebsiteTest.cs" />
     <Compile Include="Tests\ITest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\NetworkAdapterTest.cs" />
