@@ -10,7 +10,8 @@
 - [x] 网关检测
 - [x] 校内网站检测
 - [x] 指定IP检测 && 路由跟踪
-- [ ] 一键修复
+- [x] 一键修复
+- [x] 常用网站检测
 
 ## 引用的库
 
@@ -19,3 +20,13 @@
 |CommunityToolkit.Mvvm|MIT|
 |Microsoft.Extensions.DependencyInjection|MIT|
 |ModernWpfUI|MIT|
+
+## CI/CD
+
+您可以在[Github Action](https://github.com/SDUQD-SNA/SduNetCheckTool/actions)获取最新构建的**测试**版本。
+
+## 开源协议
+
+本软件以[GPLv3](https://github.com/SDUQD-SNA/SduNetCheckTool/blob/master/LICENSE.txt)协议开源。
+
+Copyright © 2023 SDUQD-SNA
