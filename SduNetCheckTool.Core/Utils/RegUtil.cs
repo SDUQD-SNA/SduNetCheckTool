@@ -66,5 +66,32 @@ namespace SduNetCheckTool.Core.Utils
             }
             return text == "null";
         }
+
+        public static bool IsExisted(string path, string name)
+        {
+            RegistryKey? regKey = null;
+            var isExisted = false;
+            try
+            {
+                regKey = Registry.CurrentUser.OpenSubKey(path);
+                string[] subkeyNames = regKey.GetValueNames();
+                foreach (string keyname in subkeyNames)
+                {
+                    if (keyname == name)
+                    {
+                        isExisted = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            finally
+            {
+                regKey?.Close();
+            }
+            return isExisted;
+        }
     }
 }

@@ -32,7 +32,10 @@ namespace SduNetCheckTool.Core.Tests
                         break;
                 }
 
-                data.Add($"代理状态:{proxyEnabledString}");
+                data.Add($"系统全局代理状态:{proxyEnabledString}");
+
+                var PACproxyEnabledString = (RegUtil.IsExisted(@"Software\Microsoft\Windows\CurrentVersion\Internet Settings", "AutoConfigURL") ? "开启" : "关闭");
+                data.Add($"PAC代理状态:{PACproxyEnabledString}");
             }
             catch (Exception)
             {
