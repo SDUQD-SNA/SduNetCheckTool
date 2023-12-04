@@ -73,7 +73,7 @@ namespace SduNetCheckTool.Core.Utils
             var isExisted = false;
             try
             {
-                regKey = Registry.CurrentUser.CreateSubKey(path);
+                regKey = Registry.CurrentUser.OpenSubKey(path);
                 string[] subkeyNames = regKey.GetValueNames();
                 foreach (string keyname in subkeyNames)
                 {
