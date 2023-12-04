@@ -14,14 +14,14 @@ namespace SduNetCheckTool.GUI.Utils
             var exportFilePath = ExportPath + "\\" + System.DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss") + ".txt";
 
             if (tasks.Any(i => i.TaskStatusEnum == TaskStatusEnum.Waiting))
-                return "请先运行测试";
+                return "-1";
 
             if (!Directory.Exists(ExportPath))
                 Directory.CreateDirectory(ExportPath);
 
             foreach (var detectionTask in tasks)
             {
-                File.AppendAllText(exportFilePath, detectionTask.Tips + '\n', Encoding.UTF8);
+                File.AppendAllText(exportFilePath, detectionTask.Tips + '\n' + '\n', Encoding.UTF8);
             }
 
             return exportFilePath;

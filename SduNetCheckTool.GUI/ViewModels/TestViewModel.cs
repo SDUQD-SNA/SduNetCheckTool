@@ -52,7 +52,7 @@ namespace SduNetCheckTool.GUI.ViewModels
         public ICommand StartCommand { get; }
 
         public ICommand RepairCommand { get; }
-        
+
         public ICommand ExportReportCommand { get; }
 
         private async void Repair()
@@ -92,7 +92,21 @@ namespace SduNetCheckTool.GUI.ViewModels
 
         private void ExportReport()
         {
-            MessageBox.Show("日志文件导出:" + FileUtil.ExportReport(Tasks));
+            var output = FileUtil.ExportReport(Tasks);
+            if (output == "-1")
+            {
+                MessageBox.Show("请先点击'开始检测'运行测试! >_<", "提示");
+            }
+            else
+            {
+                MessageBoxResult result = MessageBox.Show("日志文件已生成! (⑅•ᴗ•⑅) \n路径: " + output + "\n点击'确定'打开日志并自动复制到剪贴板!", "提示");
+                if (result == MessageBoxResult.OK)
+                {
+                    System.Diagnostics.Process.Start(output);
+                    //等待实现
+                    MessageBox.Show("已经成功复制内容到剪贴板啦! ๐•ᴗ•๐");
+                }
+            }
         }
     }
 }
