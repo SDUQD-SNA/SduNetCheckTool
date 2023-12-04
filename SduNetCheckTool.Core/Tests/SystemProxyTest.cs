@@ -10,9 +10,8 @@ namespace SduNetCheckTool.Core.Tests
         public Tuple<TestResult, string, IRepair> Test()
         {
             var data = new List<string>();
-            var result = TestResult.Failed;
-            var result1 = TestResult.Failed;
-            var result2 = TestResult.Failed;
+            var commonProxyEnabledResult = TestResult.Failed;
+            var pacProxyEnabledResult = TestResult.Failed;
 
             try
             {
@@ -25,7 +24,7 @@ namespace SduNetCheckTool.Core.Tests
                         break;
                     case "0":
                         proxyEnabledString = "关闭";
-                        result1 = TestResult.Success;
+                        commonProxyEnabledResult = TestResult.Success;
                         break;
                     case "-1":
                         proxyEnabledString = "获取失败";
@@ -38,17 +37,15 @@ namespace SduNetCheckTool.Core.Tests
                 data.Add($"系统全局代理状态: {proxyEnabledString}");
 
                 var PACproxyEnabledString = (RegUtil.IsExisted(@"Software\Microsoft\Windows\CurrentVersion\Internet Settings", "AutoConfigURL") ? "开启" : "关闭");
-                if (PACproxyEnabledString == "关闭") result2 = TestResult.Success;
+                if (PACproxyEnabledString == "关闭") pacProxyEnabledResult = TestResult.Success;
 
                 data.Add($"PAC代理状态: {PACproxyEnabledString}");
-
-                result = (result1 == TestResult.Success) && (result2 == TestResult.Success) ? TestResult.Success : TestResult.Failed;
             }
             catch (Exception)
             {
                 //ignored
             }
-            return new Tuple<TestResult, string, IRepair>(result, string.Join("\n", data), new ProxyRepair());
+            return new Tuple<TestResult, string, IRepair>((commonProxyEnabledResult == TestResult.Success) && (pacProxyEnabledResult == TestResult.Success) ? TestResult.Success : TestResult.Failed, string.Join("\n", data), new ProxyRepair());
         }
     }
 }
