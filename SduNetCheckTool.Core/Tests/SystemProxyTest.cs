@@ -13,6 +13,7 @@ namespace SduNetCheckTool.Core.Tests
             var result = TestResult.Failed;
             var result1 = TestResult.Failed;
             var result2 = TestResult.Failed;
+
             try
             {
                 var proxyEnabled = RegUtil.RegReadValue(@"Software\Microsoft\Windows\CurrentVersion\Internet Settings", "ProxyEnable", "-1");
