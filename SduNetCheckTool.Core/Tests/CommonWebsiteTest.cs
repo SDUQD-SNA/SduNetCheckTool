@@ -2,6 +2,7 @@
 using SduNetCheckTool.Core.Utils;
 using System;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
 
 namespace SduNetCheckTool.Core.Tests
 {
@@ -21,10 +22,15 @@ namespace SduNetCheckTool.Core.Tests
 
             foreach (var sduWebsite in sduWebsites)
             {
+                var domain = new Uri(sduWebsite.Value).Host;
+                var ping = new Ping();
+                var reply = ping.Send(domain, 2000);
+
                 var response = HttpUtil.GetHttpResponse(sduWebsite.Value);
-                if (response != null)
+
+                if (reply.Status == IPStatus.Success && response != null)
                 {
-                    retList.Add($"{sduWebsite.Key} ( {sduWebsite.Value} ) - {response.StatusCode}");
+                    retList.Add($"{sduWebsite.Key} ( {sduWebsite.Value} ) - {response.StatusCode} - {reply.RoundtripTime} ms");
                     continue;
                 }
                 retList.Add($"{sduWebsite.Key} ( {sduWebsite.Value} ) - 无法访问");
