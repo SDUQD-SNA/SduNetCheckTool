@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using SduNetCheckTool.GUI.Utils;
+using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace SduNetCheckTool.GUI.ViewModels
 {
@@ -93,7 +94,7 @@ namespace SduNetCheckTool.GUI.ViewModels
         private void ExportReport()
         {
             var output = FileUtil.ExportReport(Tasks);
-            if (output == "-1")
+            if (output == "NoRecords")
             {
                 MessageBox.Show("请先点击'开始检测'运行测试! >_<", "提示");
             }
@@ -103,8 +104,19 @@ namespace SduNetCheckTool.GUI.ViewModels
                 if (result == MessageBoxResult.OK)
                 {
                     System.Diagnostics.Process.Start(output);
-                    //等待实现
-                    MessageBox.Show("已经成功复制内容到剪贴板啦! ๐•ᴗ•๐");
+                    string data = FileUtil.ReadFile(output);
+                    if (data == "FileNotExists" || data == "-1")
+                    {
+                        MessageBox.Show("出现了一点小错误...");
+                        return;
+                    }
+                    Clipboard.SetText(data);
+                    new ToastContentBuilder()
+                        .AddArgument("action", "viewConversation")
+                        .AddArgument("conversationId", 9813)
+                        .AddText("已经成功复制内容到剪贴板啦! ๐•ᴗ•๐")
+                        .AddText("可以直接分享给同学哦~")
+                        .Show();
                 }
             }
         }

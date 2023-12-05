@@ -1,4 +1,5 @@
 ﻿using SduNetCheckTool.GUI.Common;
+using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace SduNetCheckTool.GUI.Utils
             var exportFilePath = ExportPath + "\\" + System.DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss") + ".txt";
 
             if (tasks.Any(i => i.TaskStatusEnum == TaskStatusEnum.Waiting))
-                return "-1";
+                return "NoRecords";
 
             if (!Directory.Exists(ExportPath))
                 Directory.CreateDirectory(ExportPath);
@@ -25,6 +26,29 @@ namespace SduNetCheckTool.GUI.Utils
             }
 
             return exportFilePath;
+        }
+
+        public static string ReadFile(string filePath)
+        {
+            if (!File.Exists(filePath)) return "FileNotExists";
+
+            try
+            {
+                StreamReader sr = new StreamReader(filePath);
+                string data = "", line = "";
+
+                while ((line = sr.ReadLine()) != null)
+                {
+                    data += line + "\n";
+                }
+
+                return data;
+            }
+            catch (Exception e)
+            {
+                //
+            }
+            return "-1";
         }
     }
 }
