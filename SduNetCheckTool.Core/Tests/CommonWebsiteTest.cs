@@ -6,14 +6,30 @@ using System.Net.NetworkInformation;
 
 namespace SduNetCheckTool.Core.Tests
 {
-    public class SduWebsiteTest : ITest
+    public class CommonWebsiteTest : ITest
     {
         public Tuple<TestResult, string, IRepair> Test()
         {
             var sduWebsites = new Dictionary<string, string>
             {
-                { "山大主页", "https://www.sdu.edu.cn" },
-                { "山大镜像站", "https://mirrors.sdu.edu.cn/archlinux/" }
+                {
+                    "必应", "https://cn.bing.com"
+                },
+                {
+                    "知网", "https://www.cnki.net"
+                },
+                {
+                    "知乎", "https://www.zhihu.com"
+                },
+                {
+                    "百度", "https://www.baidu.com"
+                },
+                {
+                    "哔哩哔哩", "https://www.bilibili.com"
+                },
+                {
+                    "中国大学MOOC", "https://www.icourse163.org"
+                },
             };
 
             var retList = new List<string>();

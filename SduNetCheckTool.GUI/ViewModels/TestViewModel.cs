@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using SduNetCheckTool.GUI.Utils;
+using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace SduNetCheckTool.GUI.ViewModels
 {
@@ -30,7 +31,8 @@ namespace SduNetCheckTool.GUI.ViewModels
                 new DetectionTask(new SduNetTest(),"校园网状态检测"),
                 new DetectionTask(new SystemProxyTest(),"系统代理检测"),
                 new DetectionTask(new SystemGatewayTest(),"系统网关检测"),
-                new DetectionTask(new SduWebsiteTest(),"山大网站连通性检测")
+                new DetectionTask(new SduWebsiteTest(),"山大网站连通性检测"),
+                new DetectionTask(new CommonWebsiteTest(),"常用网站检测")
             };
             _repairs = new Collection<IRepair>();
         }
@@ -51,7 +53,7 @@ namespace SduNetCheckTool.GUI.ViewModels
         public ICommand StartCommand { get; }
 
         public ICommand RepairCommand { get; }
-        
+
         public ICommand ExportReportCommand { get; }
 
         private async void Repair()
@@ -91,7 +93,32 @@ namespace SduNetCheckTool.GUI.ViewModels
 
         private void ExportReport()
         {
-            MessageBox.Show("日志文件导出:" + FileUtil.ExportReport(Tasks));
+            var output = FileUtil.ExportReport(Tasks);
+            if (output == "NoRecords")
+            {
+                MessageBox.Show("请先点击'开始检测'运行测试! >_<", "提示");
+            }
+            else
+            {
+                MessageBoxResult result = MessageBox.Show("日志文件已生成! (⑅•ᴗ•⑅) \n路径: " + output + "\n点击'确定'打开日志并自动复制到剪贴板!", "提示");
+                if (result == MessageBoxResult.OK)
+                {
+                    System.Diagnostics.Process.Start(output);
+                    string data = FileUtil.ReadFile(output);
+                    if (data == "FileNotExists" || data == "-1")
+                    {
+                        MessageBox.Show("出现了一点小错误...");
+                        return;
+                    }
+                    Clipboard.SetText(data);
+                    new ToastContentBuilder()
+                        .AddArgument("action", "viewConversation")
+                        .AddArgument("conversationId", 9813)
+                        .AddText("已经成功复制内容到剪贴板啦! ๐•ᴗ•๐")
+                        .AddText("可以直接分享给同学哦~")
+                        .Show();
+                }
+            }
         }
     }
 }

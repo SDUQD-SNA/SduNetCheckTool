@@ -1,8 +1,10 @@
 ﻿using SduNetCheckTool.Core.Repairs;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Threading;
 
 namespace SduNetCheckTool.Core.Tests
 {
@@ -24,21 +26,21 @@ namespace SduNetCheckTool.Core.Tests
                     IPAddressCollection addresses = iPInterfaceProperties.DhcpServerAddresses;
                     foreach (var item in gatewayIPAddressInformation)
                     {
-                        data.Add($"网卡信息:......{networkInterface.Description}");
-                        data.Add($"网关地址:......{item.Address}");
-                        PingReply reply = ping.Send(item.Address);
-                        data.Add($"是否封禁:......{(reply.Status == IPStatus.Success ? "未封禁" : "封禁")}");
+                        data.Add($"网卡信息:  {networkInterface.Description}");
+                        data.Add($"网关地址:  {item.Address}");
+                        PingReply reply = ping.Send(item.Address, 200);
                         if (reply.Status == IPStatus.Success)
                         {
-                            data.Add($"网关延迟:......{reply.RoundtripTime} ms");
+                            data.Add($"网关延迟:  {reply.RoundtripTime} ms");
                         }
                         if (addresses.Count > 0)
                         {
                             foreach (IPAddress address in addresses)
                             {
-                                data.Add($"Dhcp地址:.....{address}\n");
+                                data.Add($"DHCP服务器:  {address}");
                             }
                         }
+                        data[data.Count - 1] = data.Last() + "\n";
                     }
                 }
                 result = TestResult.Success;
@@ -47,7 +49,7 @@ namespace SduNetCheckTool.Core.Tests
             {
                 //ignored
             }
-            return new Tuple<TestResult, string, IRepair>(result,string.Join("\n",data), null);
+            return new Tuple<TestResult, string, IRepair>(result, string.Join("\n", data), null);
         }
     }
 }
