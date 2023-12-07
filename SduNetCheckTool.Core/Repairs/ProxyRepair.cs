@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics;
 using System.Text;
 using System.Threading;
+using System.Runtime.InteropServices;
 
 namespace SduNetCheckTool.Core.Repairs
 {
@@ -35,7 +36,24 @@ namespace SduNetCheckTool.Core.Repairs
 
         public static void ResetIEProxy()
         {
-            ExecuteSysproxy("set 1 - - -");
+            // ExecuteSysproxy("set 1 - - -");
+            // 调用外部dll
+            if (Environment.Is64BitProcess)
+            {
+            [DllImport("sysproxy64.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+            static extern int ResetProxy();
+                ResetProxy();
+            }
+            else
+            {
+            [DllImport("sysproxy.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Cdecl)]
+            static extern int ResetProxy();
+                ResetProxy();
+            }
+
+
+
+
         }
 
         private static void ExecuteSysproxy(string arguments)

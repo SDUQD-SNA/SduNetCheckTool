@@ -5,9 +5,9 @@ var generateEvb = require('generate-evb');
 // Change the following paths to the actual paths used in your project
 var evbCliPath = 'enigmavbconsole.exe';
 var projectName = 'SDUNetCheckTool.evb';
-var inputExe = '../../SduNetCheckTool.GUI/bin/Release/SduNetCheckTool.GUI.exe';
+var inputExe = '../../SduNetCheckTool.GUI/bin/x64/Release/SduNetCheckTool.GUI.exe';
 var outputExe = '../../build/SduNetCheckTool.GUI_boxed.exe';
-var path2Pack = '../../SduNetCheckTool.GUI/bin/Release';
+var path2Pack = '../../SduNetCheckTool.GUI/bin/x64/Release';
 
 generateEvb(projectName, inputExe, outputExe, path2Pack);
 
