@@ -1,6 +1,7 @@
 ﻿using SduNetCheckTool.Core.Repairs;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Threading;
@@ -36,9 +37,10 @@ namespace SduNetCheckTool.Core.Tests
                         {
                             foreach (IPAddress address in addresses)
                             {
-                                data.Add($"DHCP服务器:  {address}\n");
+                                data.Add($"DHCP服务器:  {address}");
                             }
                         }
+                        data[data.Count - 1] = data.Last() + "\n";
                     }
                 }
                 result = TestResult.Success;

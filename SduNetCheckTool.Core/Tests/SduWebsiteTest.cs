@@ -29,7 +29,7 @@ namespace SduNetCheckTool.Core.Tests
 
                 if (reply.Status == IPStatus.Success && response != null)
                 {
-                    retList.Add($"{sduWebsite.Key} ( {sduWebsite.Value} ) - {response.StatusCode}  {reply.Address}  {reply.RoundtripTime} ms");
+                    retList.Add($"[ {response.StatusCode} ]  {sduWebsite.Key} ( {sduWebsite.Value} )   {reply.Address} - {reply.RoundtripTime} ms");
                     continue;
                 }
                 retList.Add($"{sduWebsite.Key} ( {sduWebsite.Value} ) - 无法访问");

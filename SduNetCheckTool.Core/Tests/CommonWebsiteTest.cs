@@ -12,9 +12,24 @@ namespace SduNetCheckTool.Core.Tests
         {
             var sduWebsites = new Dictionary<string, string>
             {
-                { "哔哩哔哩" , "https://www.bilibili.com" },
-                { "知乎" , "https://www.zhihu.com" },
-                { "知网" , "https://www.cnki.net" }
+                {
+                    "必应", "https://cn.bing.com"
+                },
+                {
+                    "知网", "https://www.cnki.net"
+                },
+                {
+                    "知乎", "https://www.zhihu.com"
+                },
+                {
+                    "百度", "https://www.baidu.com"
+                },
+                {
+                    "哔哩哔哩", "https://www.bilibili.com"
+                },
+                {
+                    "中国大学MOOC", "https://www.icourse163.org"
+                },
             };
 
             var retList = new List<string>();
@@ -30,7 +45,7 @@ namespace SduNetCheckTool.Core.Tests
 
                 if (reply.Status == IPStatus.Success && response != null)
                 {
-                    retList.Add($"{sduWebsite.Key} ( {sduWebsite.Value} ) - {response.StatusCode}  {reply.Address}  {reply.RoundtripTime} ms");
+                    retList.Add($"[ {response.StatusCode} ]  {sduWebsite.Key} ( {sduWebsite.Value} )   {reply.Address} - {reply.RoundtripTime} ms");
                     continue;
                 }
                 retList.Add($"{sduWebsite.Key} ( {sduWebsite.Value} ) - 无法访问");
