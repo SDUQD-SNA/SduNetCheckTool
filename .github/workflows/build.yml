@@ -31,28 +31,23 @@ jobs:
       coreProjectPath: SduNetCheckTool.Core\SduNetCheckTool.Core.csproj
       guiProjectPath: SduNetCheckTool.GUI\SduNetCheckTool.GUI.csproj
       Configuration: Release
-      appPackagesDirectory: bin\Release
+      appPackagesDirectory: bin\x64\Release
 
 
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v4
         with:
-          node-version: '16'
-
-      - name: Install .NET Core
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '6.0.x'
+          node-version: 18
 
       - name: Setup MSBuild.exe
         uses: microsoft/setup-msbuild@v1.1
 
       - name: Restore the Wpf application
-        run: msbuild ${{ env.solutionPath }} /t:Restore /p:Configuration=${{ env.Configuration }} /p:RuntimeIdentifier=win
+        run: msbuild ${{ env.solutionPath }} /t:Restore /p:Configuration=Release /p:Platform=x64 /p:RuntimeIdentifier=win-x64
 
       - name: Build wapproj
-        run: msbuild ${{ env.solutionPath }} /p:Configuration=${{env.Configuration}} /p:UapAppxPackageBuildMode=StoreUpload /p:AppxBundle=Never /p:GenerateAppInstallerFile=False /p:AppxPackageSigningEnabled=False
+        run: msbuild ${{ env.solutionPath }} /p:Configuration=${{env.Configuration}} /p:Platform=x64 /p:RuntimIdentifier=win /p:UapAppxPackageBuildMode=StoreUpload /p:AppxBundle=Never /p:GenerateAppInstallerFile=False /p:AppxPackageSigningEnabled=False
 
       - name: Create archive
         run: |
