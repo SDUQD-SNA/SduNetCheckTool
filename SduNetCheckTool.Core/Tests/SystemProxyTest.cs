@@ -10,42 +10,26 @@ namespace SduNetCheckTool.Core.Tests
         public Tuple<TestResult, string, IRepair> Test()
         {
             var data = new List<string>();
-            var commonProxyEnabledResult = TestResult.Failed;
-            var pacProxyEnabledResult = TestResult.Failed;
+            var result = TestResult.Success;
 
             try
             {
-                var proxyEnabled = RegUtil.RegReadValue(@"Software\Microsoft\Windows\CurrentVersion\Internet Settings", "ProxyEnable", "-1");
-                string proxyEnabledString;
-                switch (proxyEnabled)
-                {
-                    case "1":
-                        proxyEnabledString = "开启";
-                        break;
-                    case "0":
-                        proxyEnabledString = "关闭";
-                        commonProxyEnabledResult = TestResult.Success;
-                        break;
-                    case "-1":
-                        proxyEnabledString = "获取失败";
-                        break;
-                    default:
-                        proxyEnabledString = "Unknown";
-                        break;
-                }
+                // 读取全局代理是否使用
+                var commonProxyEnabled = ProxySetting.UsedProxy();
+                data.Add($"系统全局代理状态: {(commonProxyEnabled ? "开启":"关闭")}");
 
-                data.Add($"系统全局代理状态: {proxyEnabledString}");
+                // 读取pac代理是否使用
+                var pacProxyEnabled = RegUtil.IsExisted(@"Software\Microsoft\Windows\CurrentVersion\Internet Settings", "AutoConfigURL");
+                data.Add($"PAC代理状态: {(pacProxyEnabled?"开启":"关闭")}");
 
-                var PACproxyEnabledString = (RegUtil.IsExisted(@"Software\Microsoft\Windows\CurrentVersion\Internet Settings", "AutoConfigURL") ? "开启" : "关闭");
-                if (PACproxyEnabledString == "关闭") pacProxyEnabledResult = TestResult.Success;
-
-                data.Add($"PAC代理状态: {PACproxyEnabledString}");
+                if( commonProxyEnabled || pacProxyEnabled)
+                    result = TestResult.Failed;
             }
             catch (Exception)
             {
                 //ignored
             }
-            return new Tuple<TestResult, string, IRepair>((commonProxyEnabledResult == TestResult.Success) && (pacProxyEnabledResult == TestResult.Success) ? TestResult.Success : TestResult.Failed, string.Join("\n", data), new ProxyRepair());
+            return new Tuple<TestResult, string, IRepair>(result, string.Join("\n", data), new ProxyRepair());
         }
     }
 }

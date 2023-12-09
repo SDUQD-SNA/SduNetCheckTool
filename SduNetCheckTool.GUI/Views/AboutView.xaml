@@ -25,6 +25,8 @@
             <Run Text="{x:Static gui:Reference.Name}" />
             <Run Text=" - " />
             <Run Text="{x:Static gui:Reference.Version}" />
+            <Run Text=" - " />
+            <Run Text="{x:Static gui:Reference.Stable}" />
         </TextBlock>
         <StackPanel
             Grid.Row="1"
