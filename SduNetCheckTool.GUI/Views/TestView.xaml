@@ -30,7 +30,7 @@
                         <StackPanel Orientation="Horizontal">
                             <Expander>
                                 <Expander.Header>
-                                    <StackPanel Orientation="Horizontal">
+                                    <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
                                         <ui:SymbolIcon
                                             Margin="5,0"
                                             Symbol="{Binding TaskStatusEnum, Converter={StaticResource SymbolConverter}}"
@@ -50,7 +50,53 @@
                                 </Expander.Header>
                                 <Expander.Content>
                                     <Grid Margin="5,8,5,0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition Height="20" />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button
+                                                Margin="5,0"
+                                                Command="{x:Static viewModels:Commands.Copy}"
+                                                CommandParameter="{Binding Tips}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <ui:SymbolIcon
+                                                        Width="20"
+                                                        Height="20"
+                                                        Margin="3,0"
+                                                        Symbol="Copy" />
+                                                    <TextBlock
+                                                        VerticalAlignment="Center"
+                                                        FontSize="15"
+                                                        Text="复制结果" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button
+                                                Margin="5,0"
+                                                Command="{Binding DataContext.SingleReRunCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ui:Page}}}"
+                                                CommandParameter="{Binding}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <ui:SymbolIcon
+                                                        Width="20"
+                                                        Height="20"
+                                                        Margin="3,0"
+                                                        Symbol="Refresh" />
+                                                    <TextBlock
+                                                        VerticalAlignment="Center"
+                                                        FontSize="15"
+                                                        Text="重新运行" />
+                                                </StackPanel>
+                                            </Button>
+                                        </StackPanel>
+                                        <Border
+                                            Grid.Row="1"
+                                            Margin="0,8"
+                                            Background="DarkGray"
+                                            CornerRadius="1"
+                                            Opacity="0.5" />
                                         <TextBlock
+                                            Grid.Row="2"
                                             Text="{Binding Tips}"
                                             TextTrimming="CharacterEllipsis"
                                             TextWrapping="Wrap" />

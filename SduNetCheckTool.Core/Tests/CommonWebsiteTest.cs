@@ -10,7 +10,7 @@ namespace SduNetCheckTool.Core.Tests
     {
         public Tuple<TestResult, string, IRepair> Test()
         {
-            var sduWebsites = new Dictionary<string, string>
+            var commonWebsites = new Dictionary<string, string>
             {
                 {
                     "必应", "https://cn.bing.com"
@@ -35,20 +35,20 @@ namespace SduNetCheckTool.Core.Tests
             var retList = new List<string>();
             var result = TestResult.Success;
 
-            foreach (var sduWebsite in sduWebsites)
+            foreach (var commonWebsite in commonWebsites)
             {
-                var domain = new Uri(sduWebsite.Value).Host;
+                var domain = new Uri(commonWebsite.Value).Host;
                 var ping = new Ping();
                 var reply = ping.Send(domain, 2000);
 
-                var response = HttpUtil.GetHttpResponse(sduWebsite.Value);
+                var response = HttpUtil.GetHttpResponse(commonWebsite.Value);
 
                 if (reply.Status == IPStatus.Success && response != null)
                 {
-                    retList.Add($"[ {response.StatusCode} ]  {sduWebsite.Key} ( {sduWebsite.Value} )   {reply.Address} - {reply.RoundtripTime} ms");
+                    retList.Add($"[ {response.StatusCode} ]  {commonWebsite.Key} ( {commonWebsite.Value} )   {reply.Address} - {reply.RoundtripTime} ms");
                     continue;
                 }
-                retList.Add($"{sduWebsite.Key} ( {sduWebsite.Value} ) - 无法访问");
+                retList.Add($"{commonWebsite.Key} ( {commonWebsite.Value} ) - 无法访问");
                 result = TestResult.Failed;
             }
 

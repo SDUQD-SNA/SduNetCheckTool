@@ -1,15 +1,15 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Toolkit.Uwp.Notifications;
 using SduNetCheckTool.Core.Repairs;
 using SduNetCheckTool.Core.Tests;
 using SduNetCheckTool.GUI.Common;
+using SduNetCheckTool.GUI.Utils;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using SduNetCheckTool.GUI.Utils;
-using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace SduNetCheckTool.GUI.ViewModels
 {
@@ -21,6 +21,7 @@ namespace SduNetCheckTool.GUI.ViewModels
             StartCommand = new RelayCommand(StartDetect);
             RepairCommand = new RelayCommand(Repair);
             ExportReportCommand = new RelayCommand(ExportReport);
+            SingleReRunCommand = new RelayCommand<DetectionTask>(SingleReRun);
         }
 
         private void Init()
@@ -55,6 +56,8 @@ namespace SduNetCheckTool.GUI.ViewModels
         public ICommand RepairCommand { get; }
 
         public ICommand ExportReportCommand { get; }
+
+        public ICommand SingleReRunCommand { get; }
 
         private async void Repair()
         {
@@ -119,6 +122,14 @@ namespace SduNetCheckTool.GUI.ViewModels
                         .Show();
                 }
             }
+        }
+
+        private async void SingleReRun(DetectionTask task)
+        {
+            await Task.Run(() =>
+            {
+                task.RunTask();
+            });
         }
     }
 }
