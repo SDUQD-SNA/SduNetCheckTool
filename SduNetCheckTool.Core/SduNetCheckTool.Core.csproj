@@ -80,6 +80,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomInputTest\DNSSwitch.cs" />
     <Compile Include="CustomInputTest\ICustomInputTest.cs" />
     <Compile Include="CustomInputTest\InternetTest.cs" />
     <Compile Include="Repairs\ProxyRepair.cs" />
