@@ -14,16 +14,20 @@ namespace SduNetCheckTool.GUI.Common
         {
             public string Name { get; set; }
             public string Value { get; set; }
+
+            public string NameAndValue => $"{Name} ({Value})";
         }
-        private readonly DNSSwitchItem[] DNSList = new[]
+        public readonly DNSSwitchItem[] DNSList = new[]
         {
+            new DNSSwitchItem { Name = "阿里 DNS", Value = "223.5.5.5" },
+            new DNSSwitchItem { Name = "腾讯 DNS", Value = "119.29.29.29" },
             new DNSSwitchItem { Name = "114 DNS", Value = "114.114.114.114" },
-            new DNSSwitchItem { Name = "Google DNS", Value = "8.8.8.8" },
+            new DNSSwitchItem { Name = "谷歌 DNS", Value = "8.8.8.8" },
             new DNSSwitchItem { Name = "自动分配DNS", Value = "DHCP" },
             // 添加更多的项，如果需要
-            };
+            new DNSSwitchItem { Name = "自定义", Value = string.Empty }
+        };
         private new readonly DNSSwitch _test;
-        // public new ICommand RunCommand { get; private set; }
         public CustomUserPerformdTask(DNSSwitch test, string name) : base(test, name)
         {
             InitializeProperties();
@@ -36,38 +40,38 @@ namespace SduNetCheckTool.GUI.Common
             return Task.Run(() =>
             {
                 TaskStatusEnum = TaskStatusEnum.Running;
-                var interfaces = SelectedNetworkInterfaces
-                    .Split(',')
-                    .Select(name => NetworkInterfaceHelper.AvailableNetworkInterfacesWithName
-                        .FirstOrDefault(item => item.Name == name))
-                    .ToArray();
-                var dns = SelectedDNSSwitchItem
-                    .Split(',')
-                    .Select(name => DNSList
-                        .FirstOrDefault(item => item.Name == name))
-                    .ToArray();
-                Tips = _test.Switch(interfaces.Select(item => item.Interface).ToArray(), dns[0].Value);
+                NetworkInterface[] interfaces = new NetworkInterface[] { SelectedNetworkInterface };
+                switch (SelectedDNSSwitchItem.Name)
+                {
+                    case "自定义":
+                        Tips = _test.Switch(interfaces, CustomDNS);
+                        break;
+                    default:
+                        Tips = _test.Switch(interfaces, SelectedDNSSwitchItem.Value);
+                        break;
+                }
                 TaskStatusEnum = TaskStatusEnum.Completed;
             });
         }
 
         private void InitializeProperties()
         {
-            NetworkInterfaces = NetworkInterfaceHelper.AvailableNetworkInterfacesWithName
-                .Select(item => item.Name)
-                .ToList();
-
-            DNSSwitchItems = DNSList.Select(item => item.Name).ToList();
-
-            // 初始化 SelectedNetworkInterfaces 和 SelectedDNSSwitchItem
-            SelectedNetworkInterfaces = NetworkInterfaces.FirstOrDefault();
+            NetworkInterfaces = NetworkInterfaceHelper.GetAvailableNetworkInterfaces;
+            DNSSwitchItems = DNSList;
+            SelectedNetworkInterface = NetworkInterfaces.FirstOrDefault();
             SelectedDNSSwitchItem = DNSSwitchItems.FirstOrDefault();
+
         }
 
-        public List<string> NetworkInterfaces { get; set; }
-        public string SelectedNetworkInterfaces { get; set; }
-        public List<string> DNSSwitchItems { get; set; }
-        public string SelectedDNSSwitchItem { get; set; }
+        public NetworkInterface[] NetworkInterfaces { get; set; }
+        public NetworkInterface SelectedNetworkInterface { get; set; }
+
+        public DNSSwitchItem[] DNSSwitchItems { get; set; }
+
+        public DNSSwitchItem SelectedDNSSwitchItem { get; set; }
+
+        public string CustomDNS { get; set; }
+
     }
 
 
