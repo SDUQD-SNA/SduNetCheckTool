@@ -15,7 +15,7 @@ namespace SduNetCheckTool.GUI.Common
             RunCommand = new AsyncRelayCommand<string>(RunTask);
         }
 
-        public Task RunTask(string input)
+        public virtual Task RunTask(string input)
         {
             return Task.Run(() =>
             {
@@ -25,17 +25,17 @@ namespace SduNetCheckTool.GUI.Common
             });
         }
 
-        public ICommand RunCommand { get; private set; }
+        public ICommand RunCommand { get; protected set; }
 
         /// <summary>
         /// 测试类
         /// </summary>
-        private readonly ICustomInputTest _test;
+        protected ICustomInputTest _test;
 
         /// <summary>
         /// 任务名字
         /// </summary>
-        private string _name;
+        protected string _name;
 
         public string Name
         {
@@ -46,7 +46,7 @@ namespace SduNetCheckTool.GUI.Common
         /// <summary>
         /// 完成状态
         /// </summary>
-        private TaskStatusEnum _taskStatusEnum = TaskStatusEnum.Waiting;
+        protected TaskStatusEnum _taskStatusEnum = TaskStatusEnum.Waiting;
 
         public TaskStatusEnum TaskStatusEnum
         {
@@ -57,7 +57,7 @@ namespace SduNetCheckTool.GUI.Common
         /// <summary>
         /// 返回的提示
         /// </summary>
-        private string _tips = "任务未完成";
+        protected string _tips = "任务未完成";
 
         public string Tips
         {
@@ -71,6 +71,6 @@ namespace SduNetCheckTool.GUI.Common
             set => SetProperty(ref _inputText, value);
         }
 
-        private string _inputText = string.Empty;
+        protected string _inputText = string.Empty;
     }
 }

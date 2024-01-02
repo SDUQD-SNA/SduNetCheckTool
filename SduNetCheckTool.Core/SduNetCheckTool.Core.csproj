@@ -96,6 +96,7 @@
     <Compile Include="Tests\SystemProxyTest.cs" />
     <Compile Include="Tests\TestResult.cs" />
     <Compile Include="Utils\HttpUtil.cs" />
+    <Compile Include="Utils\NetworkInterfaceHelper.cs" />
     <Compile Include="Utils\PingTraceRoute.cs" />
     <Compile Include="Utils\ProxySetting.cs" />
     <Compile Include="Utils\RegUtil.cs" />

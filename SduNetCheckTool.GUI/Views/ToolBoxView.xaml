@@ -16,71 +16,148 @@
     <ui:Page.Resources>
         <converters:TaskStatus2VisibilityConverter x:Key="Status2VisibilityConverter" />
         <converters:TaskStatus2SymbolConverter x:Key="SymbolConverter" />
+
+        <!-- 默认模板 -->
+        <DataTemplate x:Key="DefaultTaskTemplate">
+            <Expander>
+                <Expander.Header>
+                    <StackPanel Margin="4" Orientation="Horizontal">
+                        <ui:SymbolIcon
+                            Margin="5,0"
+                            Symbol="{Binding TaskStatusEnum, Converter={StaticResource SymbolConverter}}"
+                            Visibility="{Binding TaskStatusEnum, Converter={StaticResource Status2VisibilityConverter}}" />
+                        <ProgressBar
+                            Width="30"
+                            Height="30"
+                            IsIndeterminate="True"
+                            Visibility="{Binding TaskStatusEnum, Converter={StaticResource Status2VisibilityConverter}, ConverterParameter=0}" />
+                        <TextBlock
+                            Margin="5"
+                            VerticalAlignment="Center"
+                            FontSize="15"
+                            FontWeight="Bold"
+                            Text="{Binding Name}" />
+                    </StackPanel>
+                </Expander.Header>
+                <Expander.Content>
+                    <Grid Margin="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="10" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <DockPanel>
+                            <TextBox
+                                Name="InputTextBox"
+                                MinWidth="600"
+                                Margin="5"
+                                ui:TextBoxHelper.IsDeleteButtonVisible="True"
+                                Text="{Binding InputText}" />
+                            <Button
+                                Margin="5"
+                                Command="{Binding RunCommand}"
+                                CommandParameter="{Binding InputText}"
+                                Content="检测" />
+                        </DockPanel>
+                        <Border
+                            Grid.Row="1"
+                            Margin="0,3"
+                            Background="DarkGray"
+                            CornerRadius="1"
+                            Opacity="0.5" />
+
+                        <TextBlock
+                            Grid.Row="2"
+                            Margin="5"
+                            Text="{Binding Tips}" />
+                    </Grid>
+                </Expander.Content>
+            </Expander>
+        </DataTemplate>
+
+        <!-- TaskTemplateSelector -->
+        <common:TaskTemplateSelector x:Key="TaskTemplateSelector"
+            DefaultTemplate="{StaticResource DefaultTaskTemplate}">
+
+            <!-- DNSSwitch 模板 -->
+            <common:TaskTemplateSelector.DNSSwitchTemplate>
+                <DataTemplate>
+                    <Expander>
+                        <Expander.Header>
+                            <StackPanel Margin="4" Orientation="Horizontal">
+                                <ui:SymbolIcon
+                                    Margin="5,0"
+                                    Symbol="{Binding TaskStatusEnum, Converter={StaticResource SymbolConverter}}"
+                                    Visibility="{Binding TaskStatusEnum, Converter={StaticResource Status2VisibilityConverter}}" />
+                                <ProgressBar
+                                    Width="30"
+                                    Height="30"
+                                    IsIndeterminate="True"
+                                    Visibility="{Binding TaskStatusEnum, Converter={StaticResource Status2VisibilityConverter}, ConverterParameter=0}" />
+                                <TextBlock
+                                    Margin="5"
+                                    VerticalAlignment="Center"
+                                    FontSize="15"
+                                    FontWeight="Bold"
+                                    Text="{Binding Name}" />
+                            </StackPanel>
+                        </Expander.Header>
+                        <Expander.Content>
+                            <Grid Margin="5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="10" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <DockPanel>
+                                    <ComboBox
+                                        Name="SelectInterfaceComboBox"
+                                        MinWidth="300"
+                                        Margin="5"
+                                        ItemsSource="{Binding NetworkInterfaces}"
+                                        SelectedItem="{Binding SelectedNetworkInterfaces}" />
+                                    <ComboBox
+                                        Name="SelectDNSComboBox"
+                                        MinWidth="300"
+                                        Margin="5"
+                                        ItemsSource="{Binding DNSSwitchItems}"
+                                        SelectedItem="{Binding SelectedDNSSwitchItem}" />
+                                    <Button
+                                        Margin="5"
+                                        Command="{Binding RunCommand}"
+                                        CommandParameter="{Binding InputText}"
+                                        Content="修改DNS" />
+                                </DockPanel>
+                                <Border
+                                    Grid.Row="1"
+                                    Margin="0,3"
+                                    Background="DarkGray"
+                                    CornerRadius="1"
+                                    Opacity="0.5" />
+
+                                <TextBlock
+                                    Grid.Row="2"
+                                    Margin="5"
+                                    Text="{Binding Tips}" />
+                            </Grid>
+                        </Expander.Content>
+                    </Expander>
+                </DataTemplate>
+            </common:TaskTemplateSelector.DNSSwitchTemplate>
+        </common:TaskTemplateSelector>
     </ui:Page.Resources>
     <Grid>
-        <ScrollViewer ui:ScrollViewerHelper.AutoHideScrollBars="True" PreviewMouseWheel="ScrollViewer_OnPreviewMouseWheel">
-            <ListBox ItemsSource="{Binding Tasks}">
-                <ListBox.ItemTemplate>
+        <ScrollViewer ui:ScrollViewerHelper.AutoHideScrollBars="True"
+            PreviewMouseWheel="ScrollViewer_OnPreviewMouseWheel">
+            <ListBox ItemsSource="{Binding Tasks}"
+                ItemTemplateSelector="{StaticResource TaskTemplateSelector}">
+                <!-- <ListBox.ItemTemplate>
                     <DataTemplate DataType="{x:Type common:UserPerformedTask}">
-                        <Expander>
-                            <Expander.Header>
-                                <StackPanel Margin="4" Orientation="Horizontal">
-                                    <ui:SymbolIcon
-                                        Margin="5,0"
-                                        Symbol="{Binding TaskStatusEnum, Converter={StaticResource SymbolConverter}}"
-                                        Visibility="{Binding TaskStatusEnum, Converter={StaticResource Status2VisibilityConverter}}" />
-                                    <ProgressBar
-                                        Width="30"
-                                        Height="30"
-                                        IsIndeterminate="True"
-                                        Visibility="{Binding TaskStatusEnum, Converter={StaticResource Status2VisibilityConverter}, ConverterParameter=0}" />
-                                    <TextBlock
-                                        Margin="5"
-                                        VerticalAlignment="Center"
-                                        FontSize="15"
-                                        FontWeight="Bold"
-                                        Text="{Binding Name}" />
-                                </StackPanel>
-                            </Expander.Header>
-                            <Expander.Content>
-                                <Grid Margin="5">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="*" />
-                                        <RowDefinition Height="10" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <DockPanel>
-                                        <TextBox
-                                            Name="InputTextBox"
-                                            MinWidth="600"
-                                            Margin="5"
-                                            ui:TextBoxHelper.IsDeleteButtonVisible="True"
-                                            Text="{Binding InputText}" />
-                                        <Button
-                                            Margin="5"
-                                            Command="{Binding RunCommand}"
-                                            CommandParameter="{Binding InputText}"
-                                            Content="检测" />
-                                    </DockPanel>
-                                    <Border
-                                        Grid.Row="1"
-                                        Margin="0,3"
-                                        Background="DarkGray"
-                                        CornerRadius="1"
-                                        Opacity="0.5" />
-
-                                    <TextBlock
-                                        Grid.Row="2"
-                                        Margin="5"
-                                        Text="{Binding Tips}" />
-                                </Grid>
-                            </Expander.Content>
-
-                        </Expander>
+                        <ContentControl Content="{Binding}"
+                            ContentTemplateSelector="{StaticResource TaskTemplateSelector}" />
                     </DataTemplate>
-                </ListBox.ItemTemplate>
+                </ListBox.ItemTemplate> -->
             </ListBox>
         </ScrollViewer>
-
     </Grid>
 </ui:Page>

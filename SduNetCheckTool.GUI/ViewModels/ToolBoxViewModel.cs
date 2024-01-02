@@ -18,7 +18,7 @@ namespace SduNetCheckTool.GUI.ViewModels
             Tasks = new ObservableCollection<UserPerformedTask>()
             {
                 new UserPerformedTask(new InternetTest(),"指定网站Ping && 路由测试"),
-                new UserPerformedTask(new DNSSwitch(),"DNS切换"),
+                new CustomUserPerformdTask(new DNSSwitch(),"DNS切换"),
             };
         }
 

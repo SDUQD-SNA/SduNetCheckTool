@@ -104,6 +104,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Common\CustomUserPerformdTask.cs" />
+    <Compile Include="Common\TaskTemplateSelector.cs" />
     <Compile Include="Common\UserPerformedTask.cs" />
     <Compile Include="Reference.cs" />
     <Compile Include="Utils\FileUtil.cs" />
