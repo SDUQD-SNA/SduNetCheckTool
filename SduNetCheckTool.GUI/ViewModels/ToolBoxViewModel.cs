@@ -2,6 +2,7 @@
 using SduNetCheckTool.Core.CustomInputTest;
 using SduNetCheckTool.GUI.Common;
 using System.Collections.ObjectModel;
+using System.Net.NetworkInformation;
 
 namespace SduNetCheckTool.GUI.ViewModels
 {
@@ -16,7 +17,8 @@ namespace SduNetCheckTool.GUI.ViewModels
         {
             Tasks = new ObservableCollection<UserPerformedTask>()
             {
-                new UserPerformedTask(new InternetTest(),"指定网站Ping && 路由测试")
+                new UserPerformedTask(new InternetTest(),"指定网站Ping && 路由测试"),
+                new CustomUserPerformdTask(new DNSSwitch(),"DNS切换"),
             };
         }
 
