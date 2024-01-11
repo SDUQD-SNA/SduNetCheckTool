@@ -29,4 +29,6 @@
 
 本软件以[GPLv3](https://github.com/SDUQD-SNA/SduNetCheckTool/blob/master/LICENSE.txt)协议开源。
 
-Copyright © 2023 SDUQD-SNA
+---
+
+<p align="right">Copyright © 2023-2024 SDUQD-SNA</p>
