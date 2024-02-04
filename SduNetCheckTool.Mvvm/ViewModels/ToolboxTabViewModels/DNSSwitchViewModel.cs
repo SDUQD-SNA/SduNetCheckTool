@@ -19,6 +19,11 @@ namespace SduNetCheckTool.Mvvm.ViewModels.ToolboxTabViewModels
             public string NameAndValue => $"{Name} ({DNSIPAddress})";
         }
 
+        public bool IsDnsSwitchEnabled {get { return _isDnsSwitchEnabled; }}
+        public readonly bool _isDnsSwitchEnabled = Identifier.IsAdministrator();
+
+     
+
         private readonly DNSSwitchItem[] DNSList =
         [
             new DNSSwitchItem { Name = "阿里 DNS", DNSIPAddress = "223.5.5.5" },
@@ -44,18 +49,37 @@ namespace SduNetCheckTool.Mvvm.ViewModels.ToolboxTabViewModels
             {
                 SetStatus(TaskStatusEnum.Running);
 
+                Tips = "脚本执行中";
 
                 NetworkInterface[] interfaces = [SelectedNetworkInterface];
-
-                Tips = SelectedDNSSwitchItem.Name switch
-                {
+                if(Identifier.IsAdministrator())
+                {                
+                    Tips = SelectedDNSSwitchItem.Name switch
+                    {
                     "自定义" => DNSSwitch.Switch(interfaces, CustomDNS),
                     _ => DNSSwitch.Switch(interfaces, SelectedDNSSwitchItem.DNSIPAddress),
-                };
+                    };
+                    SetStatus(TaskStatusEnum.Completed);
+                } else
+                {
+                    Tips = "错误: 没有管理员权限!\n请尝试:点击按钮以管理员权限重启";
+                    SetStatus(TaskStatusEnum.Error);
+                }
 
-
-                SetStatus(TaskStatusEnum.Completed);
             });
+        }
+
+        [RelayCommand]
+        public void RebootAsAdmin()
+        {
+            if (Identifier.IsAdministrator())
+            {
+                Tips = "已经是管理员权限!\n可以修改DNS设置";
+            } else
+            {
+                Identifier.RebootAsAdmin();
+            }
+
         }
 
         private void InitializeProperties()
@@ -65,6 +89,13 @@ namespace SduNetCheckTool.Mvvm.ViewModels.ToolboxTabViewModels
             SelectedNetworkInterface = NetworkInterfaces.FirstOrDefault();
             SelectedDNSSwitchItem = DNSSwitchItems.FirstOrDefault();
 
+            if (IsDnsSwitchEnabled)
+            {
+                Tips = "已经是管理员权限!\n可以修改DNS设置";
+            } else
+            {
+                Tips = "错误: 没有管理员权限!\n请尝试:点击按钮以管理员权限重启";
+            }
         }
 
         public NetworkInterface[] NetworkInterfaces { get; set; }

@@ -94,6 +94,7 @@
     <Compile Include="Tests\SduWebsiteTest.cs" />
     <Compile Include="Tests\SystemProxyTest.cs" />
     <Compile Include="Tests\TestResult.cs" />
+    <Compile Include="Utils\Identifier.cs" />
     <Compile Include="Utils\HttpUtil.cs" />
     <Compile Include="Utils\NetworkInterfaceHelper.cs" />
     <Compile Include="Utils\PingTraceRoute.cs" />
