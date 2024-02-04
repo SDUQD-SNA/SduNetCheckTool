@@ -1,71 +1,53 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp.Notifications;
-using SduNetCheckTool.Core.Repairs;
-using SduNetCheckTool.Core.Tests;
-using SduNetCheckTool.GUI.Common;
-using SduNetCheckTool.GUI.Utils;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using SduNetCheckTool.Core.Repairs;
+using SduNetCheckTool.Core.Tests;
+using SduNetCheckTool.Mvvm.Common;
 
-namespace SduNetCheckTool.GUI.ViewModels
+namespace SduNetCheckTool.Mvvm.ViewModels
 {
-    public class TestViewModel : ObservableObject
+    public partial class TestViewModel : ObservableObject
     {
         public TestViewModel()
         {
             Init();
-            StartCommand = new RelayCommand(StartDetect);
-            RepairCommand = new RelayCommand(Repair);
-            ExportReportCommand = new RelayCommand(ExportReport);
-            SingleReRunCommand = new RelayCommand<DetectionTask>(SingleReRun);
         }
 
         private void Init()
         {
-            Tasks = new ObservableCollection<DetectionTask>()
-            {
-                new DetectionTask(new NetworkAdapterTest(),"网卡检测"),
-                new DetectionTask(new SduNetTest(),"校园网状态检测"),
-                new DetectionTask(new SystemProxyTest(),"系统代理检测"),
-                new DetectionTask(new SduWebsiteTest(),"山大网站连通性检测"),
-                new DetectionTask(new CommonWebsiteTest(),"常用网站检测")
-            };
-            _repairs = new Collection<IRepair>();
+            Tasks =
+            [
+                new DetectionTask(new NetworkAdapterTest(), "网卡检测"),
+                new DetectionTask(new SduNetTest(), "校园网状态检测"),
+                new DetectionTask(new SystemProxyTest(), "系统代理检测"),
+                new DetectionTask(new SduWebsiteTest(), "山大网站连通性检测"),
+                new DetectionTask(new CommonWebsiteTest(), "常用网站检测")
+            ];
+            Repairs = [];
         }
 
         /// <summary>
         /// 任务
         /// </summary>
+        [ObservableProperty]
         private ObservableCollection<DetectionTask> _tasks;
 
-        public ObservableCollection<DetectionTask> Tasks
-        {
-            get => _tasks;
-            set => SetProperty(ref _tasks, value);
-        }
-
+        [ObservableProperty]
         private Collection<IRepair> _repairs;
 
-        public ICommand StartCommand { get; }
-
-        public ICommand RepairCommand { get; }
-
-        public ICommand ExportReportCommand { get; }
-
-        public ICommand SingleReRunCommand { get; }
-
-        private async void Repair()
+        [RelayCommand]
+        private Task Repair()
         {
-            if (_repairs == null || _repairs.Count == 0)
-                return;
-            await Task.Run(() =>
+            return Task.Run(() =>
             {
+                if (Repairs.Count == 0)
+                    return;
+
                 var output = new List<string>();
-                foreach (var repair in _repairs)
+                foreach (var repair in Repairs)
                 {
                     var result = repair.Repair();
                     output.Add(result.Item1 == RepairResult.Success ? "修复成功" : "修复失败");
@@ -73,29 +55,29 @@ namespace SduNetCheckTool.GUI.ViewModels
                     output.Add("\n");
                 }
 
-                MessageBox.Show(string.Join("\n", output));
+                //MessageBox.Show(string.Join("\n", output));
             });
         }
 
-
-        private async void StartDetect()
+        [RelayCommand]
+        private Task StartDetect()
         {
-            await Task.Run(() =>
+            return Task.Run(() =>
             {
-                _repairs.Clear();
+                Repairs.Clear();
                 foreach (var detectionTask in Tasks)
                 {
                     var result = detectionTask.RunTask();
                     if (result != null)
-                        _repairs.Add(result);
+                        Repairs.Add(result);
                 }
             });
-
         }
 
+        [RelayCommand]
         private void ExportReport()
         {
-            var output = FileUtil.ExportReport(Tasks);
+            /*var output = FileUtil.ExportReport(Tasks);
             if (output == "NoRecords")
             {
                 MessageBox.Show("请先点击'开始检测'运行测试! >_<", "提示");
@@ -120,12 +102,13 @@ namespace SduNetCheckTool.GUI.ViewModels
                         .AddText("可以直接分享给同学哦~")
                         .Show();
                 }
-            }
+            }*/
         }
 
-        private async void SingleReRun(DetectionTask task)
+        [RelayCommand]
+        private Task SingleReRun(DetectionTask task)
         {
-            await Task.Run(() =>
+            return Task.Run(() =>
             {
                 task.RunTask();
             });

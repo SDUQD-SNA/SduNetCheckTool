@@ -1,4 +1,4 @@
-﻿namespace SduNetCheckTool.GUI.Common
+﻿namespace SduNetCheckTool.Mvvm.Common
 {
     /// <summary>
     /// 任务状态枚举类型

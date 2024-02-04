@@ -3,7 +3,7 @@
 namespace SduNetCheckTool.GUI.Views
 {
     /// <summary>
-    /// AboutView.xaml 的交互逻辑
+    ///     AboutView.xaml 的交互逻辑
     /// </summary>
     public partial class AboutView : UserControl
     {

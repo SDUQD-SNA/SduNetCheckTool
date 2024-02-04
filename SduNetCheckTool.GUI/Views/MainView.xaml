@@ -16,7 +16,7 @@
         <MultiBinding StringFormat="{}{0} - {1} - {2}">
             <Binding Source="{x:Static local:Reference.Name}" />
             <Binding Source="{x:Static local:Reference.Version}" />
-            <Binding Source="{x:Static local:Reference.Stable}"/>
+            <Binding Source="{x:Static local:Reference.Stable}" />
         </MultiBinding>
     </Window.Title>
     <views:RootView />

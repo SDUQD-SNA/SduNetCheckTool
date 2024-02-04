@@ -1,11 +1,11 @@
-﻿using SduNetCheckTool.GUI.Common;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using SduNetCheckTool.Mvvm.Common;
 
-namespace SduNetCheckTool.GUI.Utils
+namespace SduNetCheckTool.Mvvm.Utils
 {
     public static class FileUtil
     {

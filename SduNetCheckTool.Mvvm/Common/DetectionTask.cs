@@ -2,7 +2,7 @@
 using SduNetCheckTool.Core.Repairs;
 using SduNetCheckTool.Core.Tests;
 
-namespace SduNetCheckTool.GUI.Common
+namespace SduNetCheckTool.Mvvm.Common
 {
     public class DetectionTask : ObservableObject
     {

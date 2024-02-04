@@ -1,8 +1,8 @@
 ﻿using ModernWpf.Controls;
-using SduNetCheckTool.GUI.Common;
 using System;
 using System.Globalization;
 using System.Windows.Data;
+using SduNetCheckTool.Mvvm.Common;
 
 namespace SduNetCheckTool.GUI.Converters
 {

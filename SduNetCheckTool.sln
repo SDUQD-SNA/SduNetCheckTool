@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SduNetCheckTool.Core", "Sdu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SduNetCheckTool.GUI", "SduNetCheckTool.GUI\SduNetCheckTool.GUI.csproj", "{59475327-FB1C-4CE6-9813-3B19796DBCA0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SduNetCheckTool.Mvvm", "SduNetCheckTool.Mvvm\SduNetCheckTool.Mvvm.csproj", "{2A9DFD3C-9FD5-40AC-9733-8007021450FD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,18 @@ Global
 		{59475327-FB1C-4CE6-9813-3B19796DBCA0}.Release|x64.Build.0 = Release|x64
 		{59475327-FB1C-4CE6-9813-3B19796DBCA0}.Release|x86.ActiveCfg = Release|Any CPU
 		{59475327-FB1C-4CE6-9813-3B19796DBCA0}.Release|x86.Build.0 = Release|Any CPU
+		{2A9DFD3C-9FD5-40AC-9733-8007021450FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A9DFD3C-9FD5-40AC-9733-8007021450FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A9DFD3C-9FD5-40AC-9733-8007021450FD}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2A9DFD3C-9FD5-40AC-9733-8007021450FD}.Debug|x64.Build.0 = Debug|Any CPU
+		{2A9DFD3C-9FD5-40AC-9733-8007021450FD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2A9DFD3C-9FD5-40AC-9733-8007021450FD}.Debug|x86.Build.0 = Debug|Any CPU
+		{2A9DFD3C-9FD5-40AC-9733-8007021450FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A9DFD3C-9FD5-40AC-9733-8007021450FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A9DFD3C-9FD5-40AC-9733-8007021450FD}.Release|x64.ActiveCfg = Release|Any CPU
+		{2A9DFD3C-9FD5-40AC-9733-8007021450FD}.Release|x64.Build.0 = Release|Any CPU
+		{2A9DFD3C-9FD5-40AC-9733-8007021450FD}.Release|x86.ActiveCfg = Release|Any CPU
+		{2A9DFD3C-9FD5-40AC-9733-8007021450FD}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

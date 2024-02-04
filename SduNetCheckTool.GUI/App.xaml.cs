@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using SduNetCheckTool.GUI.ViewModels;
+using SduNetCheckTool.Mvvm.ViewModels;
 using System;
 using System.Windows;
 

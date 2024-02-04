@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 
-namespace SduNetCheckTool.GUI.ViewModels
+namespace SduNetCheckTool.Mvvm.ViewModels
 {
     public class Commands : ICommand
     {

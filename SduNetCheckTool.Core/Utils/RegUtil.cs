@@ -4,6 +4,7 @@ using System.Diagnostics;
 
 namespace SduNetCheckTool.Core.Utils
 {
+#nullable enable
     public static class RegUtil
     {
         /// <summary>

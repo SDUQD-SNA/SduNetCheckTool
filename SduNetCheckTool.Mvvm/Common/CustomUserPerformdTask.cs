@@ -1,12 +1,11 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using SduNetCheckTool.Core.CustomInputTest;
-using SduNetCheckTool.Core.Utils;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.Input;
+using SduNetCheckTool.Core.CustomInputTest;
+using SduNetCheckTool.Core.Utils;
 
-namespace SduNetCheckTool.GUI.Common
+namespace SduNetCheckTool.Mvvm.Common
 {
     public class CustomUserPerformdTask : UserPerformedTask
     {
@@ -35,7 +34,7 @@ namespace SduNetCheckTool.GUI.Common
             RunCommand = new AsyncRelayCommand<string>(RunTask);
         }
 
-        new public Task RunTask(string input)
+        public new Task RunTask(string input)
         {
             return Task.Run(() =>
             {
