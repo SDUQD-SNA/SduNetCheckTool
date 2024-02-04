@@ -1,23 +1,12 @@
-using System.Linq;
 using System.Net.NetworkInformation;
-using System.Management;
 using System.Text;
 using SduNetCheckTool.Core.Utils;
 
-namespace SduNetCheckTool.Core.CustomInputTest
+namespace SduNetCheckTool.Core.Tools
 {
-    public class DNSSwitch : ICustomInputTest
+    public class DNSSwitch
     {
-
-        public DNSSwitch()
-        { }
-        public string Test(string input)
-        {
-            // do nothing
-            return "";
-        }
-
-        public string Switch(NetworkInterface[] netInterfaces, string dnsServer)
+        public static string Switch(NetworkInterface[] netInterfaces, string dnsServer)
         {
             var data = new StringBuilder();
 
@@ -42,7 +31,5 @@ namespace SduNetCheckTool.Core.CustomInputTest
 
             return data.ToString();
         }
-
-
     }
 }

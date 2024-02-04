@@ -14,10 +14,4 @@
     <ProjectReference Include="..\SduNetCheckTool.Core\SduNetCheckTool.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="PresentationCore">
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\PresentationCore.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>

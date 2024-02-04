@@ -1,11 +1,11 @@
-﻿using SduNetCheckTool.Core.Utils;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
+using SduNetCheckTool.Core.Utils;
 
-namespace SduNetCheckTool.Core.CustomInputTest
+namespace SduNetCheckTool.Core.Tools
 {
-    public class InternetTest : ICustomInputTest
+    public class InternetTest
     {
         public string Test(string input)
         {

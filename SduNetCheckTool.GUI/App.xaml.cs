@@ -2,6 +2,7 @@
 using SduNetCheckTool.Mvvm.ViewModels;
 using System;
 using System.Windows;
+using SduNetCheckTool.Mvvm.ViewModels.ToolboxTabViewModels;
 
 namespace SduNetCheckTool.GUI
 {
@@ -36,6 +37,8 @@ namespace SduNetCheckTool.GUI
 
             services.AddSingleton<TestViewModel>();
             services.AddSingleton<ToolBoxViewModel>();
+
+            services.AddSingleton<DNSSwitchViewModel>();
 
             return services.BuildServiceProvider();
         }

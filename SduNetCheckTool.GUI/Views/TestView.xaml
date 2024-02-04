@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.modernwpf.com/2019"
     xmlns:viewModels="clr-namespace:SduNetCheckTool.Mvvm.ViewModels;assembly=SduNetCheckTool.Mvvm"
+    xmlns:utils="clr-namespace:SduNetCheckTool.GUI.Utils"
     d:DataContext="{d:DesignInstance Type=viewModels:TestViewModel}"
     d:DesignHeight="800"
     d:DesignWidth="1000"
@@ -58,7 +59,7 @@
                                         <StackPanel Orientation="Horizontal">
                                             <Button
                                                 Margin="5,0"
-                                                Command="{x:Static viewModels:Commands.Copy}"
+                                                Command="{x:Static utils:Commands.Copy}"
                                                 CommandParameter="{Binding Tips}">
                                                 <StackPanel Orientation="Horizontal">
                                                     <ui:SymbolIcon

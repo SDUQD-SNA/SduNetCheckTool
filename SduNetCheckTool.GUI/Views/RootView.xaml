@@ -40,7 +40,7 @@
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
             </ui:NavigationView.FooterMenuItems>
-            <ui:Frame x:Name="MainFrame" />
+            <ui:Frame x:Name="MainFrame"/>
         </ui:NavigationView>
     </Grid>
 </UserControl>
