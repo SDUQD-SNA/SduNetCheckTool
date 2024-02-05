@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -16,13 +17,13 @@ namespace SduNetCheckTool.Mvvm.ViewModels.ToolboxTabViewModels
             public string Name { get; set; }
             public string DNSIPAddress { get; set; }
 
-            public string NameAndValue => $"{Name} ({DNSIPAddress})";
+            public readonly string NameAndValue => $"{Name} ({DNSIPAddress})";
         }
 
-        public bool IsDnsSwitchEnabled {get { return _isDnsSwitchEnabled; }}
+        public bool IsDnsSwitchEnabled { get { return _isDnsSwitchEnabled; } }
         public readonly bool _isDnsSwitchEnabled = Identifier.IsAdministrator();
 
-     
+
 
         private readonly DNSSwitchItem[] DNSList =
         [
@@ -32,7 +33,6 @@ namespace SduNetCheckTool.Mvvm.ViewModels.ToolboxTabViewModels
             new DNSSwitchItem { Name = "谷歌 DNS", DNSIPAddress = "8.8.8.8" },
             new DNSSwitchItem { Name = "自动分配DNS", DNSIPAddress = "DHCP" },
             // 添加更多的项，如果需要
-            new DNSSwitchItem { Name = "自定义", DNSIPAddress = string.Empty }
         ];
 
         public DNSSwitchViewModel()
@@ -51,20 +51,32 @@ namespace SduNetCheckTool.Mvvm.ViewModels.ToolboxTabViewModels
 
                 Tips = "脚本执行中";
 
-                NetworkInterface[] interfaces = [SelectedNetworkInterface];
-                if(Identifier.IsAdministrator())
-                {                
-                    Tips = SelectedDNSSwitchItem.Name switch
-                    {
-                    "自定义" => DNSSwitch.Switch(interfaces, CustomDNS),
-                    _ => DNSSwitch.Switch(interfaces, SelectedDNSSwitchItem.DNSIPAddress),
-                    };
-                    SetStatus(TaskStatusEnum.Completed);
-                } else
+                if (!Identifier.IsAdministrator())
                 {
                     Tips = "错误: 没有管理员权限!\n请尝试:点击按钮以管理员权限重启";
                     SetStatus(TaskStatusEnum.Error);
+                    return;
                 }
+
+                NetworkInterface[] interfaces = [SelectedNetworkInterface];
+
+                if (IsCustomDNS)
+                {
+                    CurrentDNS = CurrentDNS.Trim();
+                    if (!DNSSwitch.IsValidIPv4(CurrentDNS))
+                    {
+                        Tips = "无效的 IPv4 地址，请输入正确的 IPv4 地址。";
+                        SetStatus(TaskStatusEnum.Error);
+                        return;
+                    }
+                    Tips = DNSSwitch.Switch(interfaces, CurrentDNS);
+                }
+                else
+                {
+                    Tips = DNSSwitch.Switch(interfaces, SelectedDNSSwitchItem.DNSIPAddress);
+                }
+                SetStatus(TaskStatusEnum.Completed);
+
 
             });
         }
@@ -75,7 +87,8 @@ namespace SduNetCheckTool.Mvvm.ViewModels.ToolboxTabViewModels
             if (Identifier.IsAdministrator())
             {
                 Tips = "已经是管理员权限!\n可以修改DNS设置";
-            } else
+            }
+            else
             {
                 Identifier.RebootAsAdmin();
             }
@@ -92,7 +105,8 @@ namespace SduNetCheckTool.Mvvm.ViewModels.ToolboxTabViewModels
             if (IsDnsSwitchEnabled)
             {
                 Tips = "已经是管理员权限!\n可以修改DNS设置";
-            } else
+            }
+            else
             {
                 Tips = "错误: 没有管理员权限!\n请尝试:点击按钮以管理员权限重启";
             }
@@ -103,9 +117,45 @@ namespace SduNetCheckTool.Mvvm.ViewModels.ToolboxTabViewModels
 
         public DNSSwitchItem[] DNSSwitchItems { get; set; }
 
-        public DNSSwitchItem SelectedDNSSwitchItem { get; set; }
+        public DNSSwitchItem _selectedDNSSwitchItem;
+        public DNSSwitchItem SelectedDNSSwitchItem
+        {
+            get => _selectedDNSSwitchItem;
+            set
+            {
+                if (!_selectedDNSSwitchItem.Equals(value))
+                {
+                    _selectedDNSSwitchItem = value;
 
-        public string CustomDNS { get; set; }
+                    // Update IsCustomDNS based on the new SelectedDNSSwitchItem
+                    CurrentDNS = SelectedDNSSwitchItem.DNSIPAddress;
+                    OnPropertyChanged(nameof(SelectedDNSSwitchItem));
+
+                }
+            }
+        }
+
+        public bool _isCustomDNS;
+
+        public bool IsCustomDNS
+        {
+            get => _isCustomDNS;
+            set
+            {
+                if (_isCustomDNS != value)
+                {
+                    _isCustomDNS = value;
+                    OnPropertyChanged(nameof(IsCustomDNS));
+                    if (_isCustomDNS)
+                    {
+                        CurrentDNS = string.Empty;
+                    }
+                }
+            }
+        }
+
+        [ObservableProperty]
+        public string currentDNS;
 
     }
 
