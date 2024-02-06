@@ -41,7 +41,7 @@ jobs:
           node-version: 18
 
       - name: Setup MSBuild.exe
-        uses: microsoft/setup-msbuild@v1.1
+        uses: microsoft/setup-msbuild@v2
 
       - name: Restore the Wpf application
         run: msbuild ${{ env.solutionPath }} /t:Restore /p:Configuration=Release /p:Platform=x64 /p:RuntimeIdentifier=win-x64
@@ -63,7 +63,7 @@ jobs:
           Move-Item build\SduNetCheckTool.GUI_boxed.exe build\${{ env.appPackagesExecutable }}
       
       - name: 'Upload Artifact'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.artifactName }}
           path: |

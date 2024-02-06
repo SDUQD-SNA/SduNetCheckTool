@@ -12,12 +12,14 @@
     mc:Ignorable="d">
     <Grid Margin="5">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="10" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <DockPanel>
+
+        <DockPanel Grid.Row="0">
             <ComboBox
                 Name="SelectInterfaceComboBox"
                 MinWidth="300"
@@ -41,6 +43,15 @@
                         <TextBlock Text="{Binding NameAndValue}" />
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
+                <ComboBox.Style>
+                    <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsCustomDNS}" Value="True">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ComboBox.Style>
             </ComboBox>
             <Button
                 Margin="5"
@@ -71,24 +82,42 @@
                 </Button.Style>
             </Button>
         </DockPanel>
+        <CheckBox
+            Grid.Row="1"
+                Margin="5"
+                FlowDirection="LeftToRight"
+                IsChecked="{Binding IsCustomDNS}"
+                Width="{Binding ElementName=SelectInterfaceComboBox, Path=ActualWidth}">
+            <TextBlock FlowDirection="LeftToRight" Text="自定义 DNS 服务器:" />
+        </CheckBox>
         <TextBox
-            Grid.Row="3"
+            Grid.Row="2"
             Margin="5"
-            HorizontalAlignment="Stretch"
+            MinWidth="300"
             VerticalAlignment="Center"
-            Text="{Binding CustomDNS, UpdateSourceTrigger=PropertyChanged}" />
+            HorizontalAlignment="Left"
+            Text="{Binding CurrentDNS, UpdateSourceTrigger=PropertyChanged}"
+            Width="{Binding ElementName=SelectDNSComboBox, Path=ActualWidth}">
+            <TextBox.Style>
+                <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsCustomDNS}" Value="False">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
 
         <Border
-            Grid.Row="1"
+            Grid.Row="3"
             Margin="0,3"
             Background="DarkGray"
             CornerRadius="1"
             Opacity="0.5" />
-
         <TextBlock
-            Grid.Row="2"
+            Grid.Row="4"
             Margin="5"
             Text="{Binding Tips}" />
-
     </Grid>
 </UserControl>
