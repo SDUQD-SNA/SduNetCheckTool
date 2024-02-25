@@ -20,10 +20,10 @@ jobs:
     runs-on: windows-latest
 
     env:
-      # artifacts 命名 [名字]-[commit-hash]
-      artifactName: SduNetCheckTool-${{ github.sha }}
-      appPackagesArchive: SduNetCheckTool-${{ github.sha }}.zip
-      appPackagesExecutable: SduNetCheckTool-${{ github.sha }}.exe
+      # artifacts 命名 [名字]-[build-number]-[commit-hash]
+      artifactName: SduNetCheckTool-build.${{github.run_number}}-${{ github.sha }}
+      appPackagesArchive: SduNetCheckTool-build.${{github.run_number}}-${{ github.sha }}.zip
+      appPackagesExecutable: SduNetCheckTool-build.${{github.run_number}}-${{ github.sha }}.exe
 
       solutionPath: SduNetCheckTool.sln
       coreProjectDirectory: SduNetCheckTool.Core
