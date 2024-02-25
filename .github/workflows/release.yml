@@ -17,7 +17,7 @@ jobs:
 
         env:
           # app 命名 [名字]-[commit-tag]
-          artifact_name: SduNetCheckTool-${{ github.sha }}
+          artifact_name: SduNetCheckTool-build.${{github.run_number}}-${{ github.sha }}
 
         steps:
         - name: Checkout
