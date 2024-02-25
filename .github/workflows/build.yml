@@ -69,4 +69,4 @@ jobs:
           path: |
             build/${{ env.appPackagesArchive }}
             build/${{ env.appPackagesExecutable }}
-          retention-days: 1
+          retention-days: 15
