@@ -31,14 +31,12 @@ jobs:
         - name: Display Artifact
           run: |
             ls -l
-            mv ${{ env.artifact_name }}.zip SduNetCheckTool-${{ github.ref_name }}.zip
             mv ${{ env.artifact_name }}.exe SduNetCheckTool-${{ github.ref_name }}.exe
         
         - name: Create Release
           uses: softprops/action-gh-release@v1
           with:
             files: |
-                SduNetCheckTool-${{ github.ref_name }}.zip
                 SduNetCheckTool-${{ github.ref_name }}.exe
                 LICENSE.txt
             tag_name: ${{ github.ref_name }}

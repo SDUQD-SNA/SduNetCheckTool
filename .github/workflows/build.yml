@@ -22,51 +22,41 @@ jobs:
     env:
       # artifacts 命名 [名字]-[build-number]-[commit-hash]
       artifactName: SduNetCheckTool-build.${{github.run_number}}-${{ github.sha }}
-      appPackagesArchive: SduNetCheckTool-build.${{github.run_number}}-${{ github.sha }}.zip
       appPackagesExecutable: SduNetCheckTool-build.${{github.run_number}}-${{ github.sha }}.exe
 
       solutionPath: SduNetCheckTool.sln
-      coreProjectDirectory: SduNetCheckTool.Core
       guiProjectDirectory: SduNetCheckTool.GUI
-      coreProjectPath: SduNetCheckTool.Core\SduNetCheckTool.Core.csproj
-      guiProjectPath: SduNetCheckTool.GUI\SduNetCheckTool.GUI.csproj
+      Platform: x64
       Configuration: Release
-      appPackagesDirectory: bin\x64\Release
+      RuntimeIdentifier: win-x64
+      # appPackagesDirectory: bin\x64\Release
+      appPackagesDirectory: bin\$env:Platform\$env:Configuration
 
 
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-dotnet@v4
         with:
-          node-version: 18
+          dotnet-version: '3.1.x'
 
       - name: Setup MSBuild.exe
         uses: microsoft/setup-msbuild@v2
+      
+      # - name: Add Costura.Fody
+      #   run: dotnet add .\SduNetCheckTool.GUI\SduNetCheckTool.GUI.csproj package Costura.Fody
 
-      - name: Restore the Wpf application
-        run: msbuild ${{ env.solutionPath }} /t:Restore /p:Configuration=Release /p:Platform=x64 /p:RuntimeIdentifier=win-x64
+      - name: Restore and build the Wpf application
+        run: ./.github/utils/build.ps1 -SolutionPath ${{ env.solutionPath }} -Configuration ${{ env.Configuration }} -Platform ${{ env.Platform }} -RuntimeIdentifier ${{ env.RuntimeIdentifier }}
 
-      - name: Build wapproj
-        run: msbuild ${{ env.solutionPath }} /p:Configuration=${{env.Configuration}} /p:Platform=x64 /p:RuntimIdentifier=win /p:UapAppxPackageBuildMode=StoreUpload /p:AppxBundle=Never /p:GenerateAppInstallerFile=False /p:AppxPackageSigningEnabled=False
-
-      - name: Create archive
+      - name: Rename file
         run: |
           mkdir build
-          Compress-Archive -Path ${{ env.guiProjectDirectory }}\${{ env.appPackagesDirectory }}\* -DestinationPath build\${{ env.appPackagesArchive }}
-      
-      - name: Pack into single file executable
-        run: | 
-          cd .\.github\utils\
-          npm install
-          node pack.js
-          cd -
-          Move-Item build\SduNetCheckTool.GUI_boxed.exe build\${{ env.appPackagesExecutable }}
+          Compress-Archive -Path ${{ env.guiProjectDirectory }}\${{ env.appPackagesDirectory }}\app.publish\SduNetCheckTool.GUI.exe -DestinationPath build\${{ env.appPackagesExecutable }}
       
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.artifactName }}
           path: |
-            build/${{ env.appPackagesArchive }}
             build/${{ env.appPackagesExecutable }}
           retention-days: 15
