@@ -3,9 +3,12 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using SduNetCheckTool.Core.Repairs;
 using SduNetCheckTool.Core.Tests;
 using SduNetCheckTool.Mvvm.Common;
+using SduNetCheckTool.Mvvm.Common.Messages;
+using SduNetCheckTool.Mvvm.Utils;
 
 namespace SduNetCheckTool.Mvvm.ViewModels
 {
@@ -103,6 +106,13 @@ namespace SduNetCheckTool.Mvvm.ViewModels
                         .Show();
                 }
             }*/
+            var output = FileUtil.ExportReport(Tasks); //temp
+            if (output == null)
+            {
+                WeakReferenceMessenger.Default.Send(new InfoDialogMessage("请先点击'开始检测'运行测试! >_<"));
+                return;
+            }
+            WeakReferenceMessenger.Default.Send(new InfoDialogMessage("日志文件已生成!(⑅•ᴗ•⑅) \n路径: " + output));
         }
 
         [RelayCommand]

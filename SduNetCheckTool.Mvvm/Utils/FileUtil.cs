@@ -15,7 +15,7 @@ namespace SduNetCheckTool.Mvvm.Utils
             var exportFilePath = ExportPath + "\\" + System.DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss") + ".txt";
 
             if (tasks.Any(i => i.TaskStatusEnum == TaskStatusEnum.Waiting))
-                return "NoRecords";
+                return null;
 
             if (!Directory.Exists(ExportPath))
                 Directory.CreateDirectory(ExportPath);
