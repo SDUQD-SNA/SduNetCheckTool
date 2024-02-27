@@ -8,8 +8,8 @@
     xmlns:ui="http://schemas.modernwpf.com/2019"
     d:DesignHeight="450"
     d:DesignWidth="800"
-    DefaultButton="Close"
     CloseButtonText="我知道了"
+    DefaultButton="Close"
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
@@ -18,9 +18,13 @@
         </Grid.RowDefinitions>
         <TextBlock
             FontSize="20"
-            Text="提示"
             FontWeight="Bold"
+            Text="提示"
             TextAlignment="Left" />
-        <TextBlock Grid.Row="1" Margin="4,8" x:Name="Description" />
+        <TextBlock
+            x:Name="Description"
+            Grid.Row="1"
+            Margin="4,8"
+            TextWrapping="Wrap" />
     </Grid>
 </ui:ContentDialog>

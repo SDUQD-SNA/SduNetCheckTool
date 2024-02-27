@@ -9,10 +9,10 @@ namespace SduNetCheckTool.Mvvm.Utils
 {
     public static class FileUtil
     {
-        public static string ExportPath = Directory.GetCurrentDirectory() + "\\报告";
+        public static string ExportPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
         public static string ExportReport(ObservableCollection<DetectionTask> tasks)
         {
-            var exportFilePath = ExportPath + "\\" + System.DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss") + ".txt";
+            var exportFilePath = ExportPath + "\\报告-" + DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss") + ".txt";
 
             if (tasks.Any(i => i.TaskStatusEnum == TaskStatusEnum.Waiting))
                 return null;
@@ -28,7 +28,7 @@ namespace SduNetCheckTool.Mvvm.Utils
             return exportFilePath;
         }
 
-        public static string ReadFile(string filePath)
+        /*public static string ReadFile(string filePath)
         {
             if (!File.Exists(filePath)) return "FileNotExists";
 
@@ -49,6 +49,6 @@ namespace SduNetCheckTool.Mvvm.Utils
                 //
             }
             return "-1";
-        }
+        }*/
     }
 }
