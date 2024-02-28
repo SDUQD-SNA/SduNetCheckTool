@@ -48,15 +48,15 @@ jobs:
       - name: Restore and build the Wpf application
         run: ./.github/utils/build.ps1 -SolutionPath ${{ env.solutionPath }} -Configuration ${{ env.Configuration }} -Platform ${{ env.Platform }} -RuntimeIdentifier ${{ env.RuntimeIdentifier }}
 
-      - name: Rename file
-        run: |
-          mkdir build
-          Compress-Archive -Path ${{ env.guiProjectDirectory }}\${{ env.appPackagesDirectory }}\app.publish\SduNetCheckTool.GUI.exe -DestinationPath build\${{ env.appPackagesExecutable }}
+      # - name: Rename file
+      #   run: |
+      #     mkdir build
+      #     Compress-Archive -Path ${{ env.guiProjectDirectory }}\${{ env.appPackagesDirectory }}\app.publish\SduNetCheckTool.GUI.exe -DestinationPath build\${{ env.appPackagesExecutable }}
       
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.artifactName }}
           path: |
-            build/${{ env.appPackagesExecutable }}
+            ${{ env.guiProjectDirectory }}\${{ env.appPackagesDirectory }}
           retention-days: 15
