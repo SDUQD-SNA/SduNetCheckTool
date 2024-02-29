@@ -11,7 +11,7 @@ jobs:
     build:
       uses: ./.github/workflows/build.yml
 
-    relase:
+    release:
         needs: build
         runs-on: ubuntu-latest
 
@@ -20,8 +20,8 @@ jobs:
           artifact_name: SduNetCheckTool-build.${{github.run_number}}-${{ github.sha }}
 
         steps:
-        #- name: Checkout
-         # uses: actions/checkout@v2
+        - name: Checkout
+          uses: actions/checkout@v2
 
         - name: Download Artifact
           uses: actions/download-artifact@v4
@@ -29,7 +29,7 @@ jobs:
         - name: Display Artifact
           run: |
             ls -l
-            mv SduNetCheckTool.GUI.exe SduNetCheckTool-${{ github.ref_name }}.exe
+            mv ${{env.artifact_name }}/SduNetCheckTool.GUI.exe SduNetCheckTool-${{ github.ref_name }}.exe
         
         - name: Create Release
           uses: softprops/action-gh-release@v1
