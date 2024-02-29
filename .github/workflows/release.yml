@@ -20,14 +20,12 @@ jobs:
           artifact_name: SduNetCheckTool-build.${{github.run_number}}-${{ github.sha }}
 
         steps:
-        - name: Checkout
-          uses: actions/checkout@v2
+        #- name: Checkout
+         # uses: actions/checkout@v2
 
         - name: Download Artifact
-          uses: actions/download-artifact@v2
-          with:
-            name: ${{ env.artifact_name }}
-        
+          uses: actions/download-artifact@v4
+              
         - name: Display Artifact
           run: |
             ls -l
