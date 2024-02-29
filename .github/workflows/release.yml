@@ -11,7 +11,7 @@ jobs:
     build:
       uses: ./.github/workflows/build.yml
 
-    relase:
+    release:
         needs: build
         runs-on: ubuntu-latest
 
@@ -24,21 +24,17 @@ jobs:
           uses: actions/checkout@v2
 
         - name: Download Artifact
-          uses: actions/download-artifact@v2
-          with:
-            name: ${{ env.artifact_name }}
-        
+          uses: actions/download-artifact@v4
+              
         - name: Display Artifact
           run: |
             ls -l
-            mv ${{ env.artifact_name }}.zip SduNetCheckTool-${{ github.ref_name }}.zip
-            mv ${{ env.artifact_name }}.exe SduNetCheckTool-${{ github.ref_name }}.exe
+            mv ${{env.artifact_name }}/SduNetCheckTool.GUI.exe SduNetCheckTool-${{ github.ref_name }}.exe
         
         - name: Create Release
           uses: softprops/action-gh-release@v1
           with:
             files: |
-                SduNetCheckTool-${{ github.ref_name }}.zip
                 SduNetCheckTool-${{ github.ref_name }}.exe
                 LICENSE.txt
             tag_name: ${{ github.ref_name }}

@@ -20,6 +20,7 @@
 |CommunityToolkit.Mvvm|MIT|
 |Microsoft.Extensions.DependencyInjection|MIT|
 |ModernWpfUI|MIT|
+|Costura.Fody|MIT|
 
 ## CI/CD
 
